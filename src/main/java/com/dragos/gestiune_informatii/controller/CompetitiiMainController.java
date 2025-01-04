@@ -4,6 +4,7 @@ import com.dragos.gestiune_informatii.service.CompetitiiMainService;
 import com.dragos.gestiune_informatii.model.CompetitiiMain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
@@ -34,13 +35,16 @@ public class CompetitiiMainController {
         return "competitions/details"; // Render the details of a single competition
     }
 
+    // Show the form for adding a new competition (only accessible by ADMIN)
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/add")
     public String showNewCompetitionForm(Model model) {
         model.addAttribute("competitie", new CompetitiiMain());
-        return "competitions/add";
+        return "competitions/add"; // Show the add competition form
     }
 
     // Insert a new competition (POST request)
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add")
     public String addCompetitie(
             @RequestParam("competitionName") String competitionName,
@@ -59,7 +63,9 @@ public class CompetitiiMainController {
                 competitionName, dataStart, dataEnd, descriere, detalii, site, status, type, organizerName);
 
         model.addAttribute("message", "Competition added successfully!");
-        return "new-competition"; // Redirect back to the form or confirmation page
-    }
 
+        // Redirect to competition list after adding the competition
+        return "redirect:/competitions"; // Redirects to the list of competitions page
+    }
 }
+
