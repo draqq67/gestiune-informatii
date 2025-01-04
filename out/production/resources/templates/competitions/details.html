@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title th:text="${competition.nume != null ? competition.nume : 'Competition Details'}">Competition Details</title>
+  <link rel="stylesheet" href="/css/list.css">
+</head>
+<body>
+<h1 th:text="${competition.nume != null ? competition.nume : 'Competition Name'}">Competition Name</h1>
+
+<p><strong>Organizer:</strong>
+  <span th:text="${organizator != null ? organizator.name : 'Organizer Name'}">Organizer Name</span>
+</p>
+
+<p><strong>Description:</strong>
+  <span th:text="${competition.descriere != null ? competition.descriere : 'No description available'}">Description</span>
+</p>
+
+<p><strong>Details:</strong>
+  <span th:text="${competition.detalii != null ? competition.detalii : 'No details available'}">Details</span>
+</p>
+
+<p><strong>Categories:</strong></p>
+<ul>
+  <li th:each="category : ${competition.categorii}">
+    <span th:text="${category.sport != null ? category.sport : 'Unknown Sport'}">Category Sport</span>
+    (<span th:text="${category.numarEchipe != null ? category.numarEchipe : 0}">Number of Teams</span>)
+  </li>
+
+</ul>
+<p><strong>Sponsors:</strong></p>
+<ul>
+  <li th:each="sponsor : ${competition.sponsor}">
+    <span><strong>Name:</strong> <span th:text="${sponsor.denumire}">Sponsor Name</span></span>
+    <br/>
+    <span><strong>Package Type:</strong> <span th:text="${sponsor.tip_pachet}">Package Type</span></span>
+  </li>
+</ul>
+</body>
+</html>
