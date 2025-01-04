@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Competitions List</title>
+  <link rel="stylesheet" href="/css/list.css">
+</head>
+<body>
+<h1>Competitions</h1>
+<ul>
+  <li th:each="competition : ${competitions}">
+    <a th:href="@{'/competitions/' + ${competition.id}}">
+      <span th:text="${competition.nume}">Competition Name</span>
+    </a>
+  </li>
+</ul>
+</body>
+</html>

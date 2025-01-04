@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Competitii List</title>
+</head>
+<body>
+
+<h1>List of Competitii</h1>
+
+<!-- Table to display the competiții -->
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Organizer ID</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Loop through the competitii list and display each competitii -->
+    <tr th:each="competitie : ${competitii}">
+        <td th:text="${competitie.id}"></td>
+        <td th:text="${competitie.nume}"></td>
+        <td th:text="${competitie.dataStart}"></td>
+        <td th:text="${competitie.dataEnd}"></td>
+        <td th:text="${competitie.organizatorId}"></td>
+        <td th:text="${competitie.descriere}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

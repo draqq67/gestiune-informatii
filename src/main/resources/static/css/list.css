@@ -1,0 +1,77 @@
+/* General Page Styling */
+body {
+font-family: 'Arial', sans-serif;
+background-color: #f4f4f9; /* Light grey background */
+margin: 0;
+padding: 0;
+color: #333; /* Dark text for readability */
+line-height: 1.6;
+}
+
+/* Centered Container */
+h1 {
+text-align: center;
+margin-top: 20px;
+color: #444;
+font-size: 2.5em;
+letter-spacing: 1px;
+}
+
+/* Styling the List */
+ul {
+list-style-type: none; /* Remove bullet points */
+padding: 0;
+margin: 20px auto;
+max-width: 600px;
+}
+
+li {
+background: #ffffff; /* White background for each item */
+margin: 10px 0;
+border-radius: 11px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+}
+
+/* Hover Effect on List Items */
+li:hover {
+transform: scale(1.02); /* Slight scaling effect */
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Stronger shadow */
+}
+
+/* Link Styling */
+li a {
+display: block; /* Makes the whole item clickable */
+text-decoration: none; /* Remove underline */
+color: #444; /* Slightly darker text */
+padding: 15px 20px;
+font-size: 1.2em;
+font-weight: bold;
+transition: color 0.2s ease;
+}
+
+/* Hover Effect on Links */
+li a:hover {
+color: #007bff; /* Highlight with a blue color */
+}
+
+/* Add spacing around the list */
+ul {
+margin: 20px auto;
+padding: 0;
+width: 90%; /* Makes it responsive */
+max-width: 600px;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+h1 {
+font-size: 2em;
+}
+
+li a {
+font-size: 1em;
+padding: 10px;
+}
+}
