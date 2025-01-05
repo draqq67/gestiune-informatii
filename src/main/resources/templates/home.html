@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Competition Management</title>
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+<body>
+<header>
+    <h1>Competition Management Platform</h1>
+</header>
+
+<main>
+    <section class="description">
+        <h2>About the Project</h2>
+        <p th:text="${projectDescription}"></p>
+    </section>
+
+    <section class="pages">
+        <h2>Available Pages</h2>
+        <ul>
+            <li th:each="entry : ${pages}">
+                <a th:href="${entry.value}" th:text="${entry.key}"></a>
+            </li>
+        </ul>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2025 Competition Management Project</p>
+    <p>View the project on <a th:href="${githubLink}" target="_blank">GitHub</a></p>
+</footer>
+</body>
+</html>
