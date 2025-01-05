@@ -37,7 +37,19 @@ public class MeciuriService {
     // Use custom query to insert match
 
     public void insertMatch(LocalDateTime dataMeci, Integer echipa1, Integer echipa2, Integer locatie,
-                            String status, String scor, Integer categorie) {
-        meciuriRepository.insertMatch(dataMeci, echipa1, echipa2, locatie, status, scor, categorie);
+                            String status, Integer scor1,Integer scor2, Integer categorie) {
+        meciuriRepository.insertMatch(dataMeci, echipa1, echipa2, locatie, status, scor1,scor2, categorie);
+    }
+
+    public void updateMatch(Meciuri match) {
+        meciuriRepository.updateMatchScores(match.getId(),match.getScor1(),match.getScor2());
+    }
+
+    public Meciuri getMatchById(Integer id) {
+        return meciuriRepository.getMatchById(id);
+    }
+
+    public List<Meciuri> getMatchesByStatus(String active) {
+        return meciuriRepository.findMatchesByStatus(active);
     }
 }

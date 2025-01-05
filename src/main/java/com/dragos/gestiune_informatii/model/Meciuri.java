@@ -37,21 +37,15 @@ public class Meciuri {
     @Column(name = "status", nullable = false)
     private String status;
 
-    @Column(name = "scor")
-    private String scor;
+    @Column(name = "scor1")
+    private Integer scor1;
+
+    @Column(name = "scor2")
+    private Integer scor2;
+
 
     // Constructors, Getters, and Setters
     public Meciuri() {
-    }
-
-    public Meciuri(Categorii categorie, LocalDateTime dataMeci, Echipe echipa1, Echipe echipa2, Locatii locatie, String status, String details, String scor) {
-        this.categorie = categorie;
-        this.dataMeci = dataMeci;
-        this.echipa1 = echipa1;
-        this.echipa2 = echipa2;
-        this.locatie = locatie;
-        this.status = status;
-        this.scor = scor;
     }
 
     public Integer getId() {
@@ -107,11 +101,20 @@ public class Meciuri {
     public void setStatus(String status) {
         this.status = status;
     }
-    public String getScor() {
-        return scor;
+    public Integer getScor1() {
+        return scor1;
     }
-    public void setScor(String scor) {
-        this.scor = scor;
+
+    public void setScor1(Integer scor1) {
+        this.scor1 = scor1;
+    }
+
+    public Integer getScor2() {
+        return scor2;
+    }
+
+    public void setScor2(Integer scor2) {
+        this.scor2 = scor2;
     }
 
     // Add remaining getters and setters

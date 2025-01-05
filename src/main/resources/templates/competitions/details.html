@@ -35,5 +35,12 @@
     <span><strong>Package Type:</strong> <span th:text="${sponsor.tip_pachet}">Package Type</span></span>
   </li>
 </ul>
+<p><strong>Photos:</strong></p>
+<div class = "photos">
+  <div th:each="poza : ${competition.poze}" style="display: flex; align-items: center; gap: 1rem; border: 1px solid #ddd; padding: 1rem;">
+    <img th:src="${poza.url}" th:alt="${poza.altText}" style="width: 150px; height: 150px; object-fit: cover; border-radius: 8px;" />
+  </div>
+</div>
+</ul>
 </body>
 </html>

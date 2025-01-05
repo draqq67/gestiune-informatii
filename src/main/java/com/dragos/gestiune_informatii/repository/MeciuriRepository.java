@@ -42,14 +42,26 @@ public interface MeciuriRepository extends CrudRepository<Meciuri, Integer> {
     // Custom insert query
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO meciuri (data_meci, id_echipa1, id_echipa2, id_locatie, status, scor, id_categorie) " +
-            "VALUES (:dataMeci, :echipa1, :echipa2, :locatie, :status, :scor, :categorie)", nativeQuery = true)
+    @Query(value = "INSERT INTO meciuri (data_meci, id_echipa1, id_echipa2, id_locatie, status, scor1, scor2, id_categorie) " +
+            "VALUES (:dataMeci, :echipa1, :echipa2, :locatie, :status, :scor1,:scor2, :categorie)", nativeQuery = true)
     void insertMatch(@Param("dataMeci") LocalDateTime dataMeci,
                      @Param("echipa1") Integer echipa1,
                      @Param("echipa2") Integer echipa2,
                      @Param("locatie") Integer locatie,
                      @Param("status") String status,
-                     @Param("scor") String scor,
+                     @Param("scor1") Integer scor1,
+                     @Param("scor2") Integer scor2,
                      @Param("categorie") Integer categorie);
 
-    }
+    @Modifying
+    @Transactional
+    @Query("UPDATE Meciuri m SET m.scor1 = :scor1, m.scor2 = :scor2 WHERE m.id = :id")
+    void updateMatchScores(@Param("id") Integer id,
+                           @Param("scor1") Integer scor1,
+                           @Param("scor2") Integer scor2);
+
+    // Query to get a match by its ID
+    @Query("SELECT m FROM Meciuri m WHERE m.id = :id")
+    Meciuri getMatchById(@Param("id") Integer id);
+}
+

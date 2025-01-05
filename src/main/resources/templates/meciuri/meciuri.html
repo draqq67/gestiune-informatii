@@ -26,7 +26,8 @@
                 <th>Location</th>
                 <th>Location Map</th>
                 <th>Status</th>
-                <th>Score</th>
+                <th>Scor Echipa 1</th>
+                <th>Scor Echipa 2</th>
             </tr>
             </thead>
             <tbody>
@@ -34,19 +35,23 @@
             <tr th:each="match : ${meciuri}">
                 <td th:text="${match.categorie.competition.nume}"></td>
                 <td th:text="${match.categorie.sport}"></td> <!-- Assuming category has a name attribute -->
-<!--                <td th:text="${match.dataMeci}"></td>-->
+                <td th:text="${match.dataMeci}"></td>
                 <td th:text="${match.echipa1.nume}"></td> <!-- Assuming teams have a nume attribute -->
                 <td th:text="${match.echipa2.nume}"></td>
                 <td th:text="${match.locatie.adresa}"></td> <!-- Display location address -->
                 <td><a th:href="${match.locatie.urlmaps}" target="_blank">View on Map</a></td> <!-- Link to location map -->
                 <td th:text="${match.status}"></td>
-                <td th:text="${match.scor}"></td>
+                <td th:text="${match.scor1}"></td>
+                <td th:text="${match.scor2}"></td>
             </tr>
             </tbody>
         </table>
 
         <div class="add">
             <a href = "/meciuri/add"> Add more meciuri </a>
+        </div>
+        <div class="update">
+            <a href = "/meciuri/active"> Update meciuri </a>
         </div>
     </section>
 </main>

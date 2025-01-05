@@ -50,6 +50,10 @@ public class CompetitiiMain {
     public List<Sponsori> sponsor = new ArrayList<>();
 
 
+    @OneToMany(mappedBy = "competitiiMain", cascade = CascadeType.ALL, orphanRemoval = true)
+    public List<Poze> poze = new ArrayList<>();
+
+
     public List<Sponsori> getSponsor() {
         return sponsor;
     }
@@ -145,5 +149,12 @@ public class CompetitiiMain {
 
     public Organizatori getOrganizator() {
         return organizator;
+    }
+
+    public List<Poze> getPoze() {
+        return poze;
+    }
+    public void setPoze(List<Poze> poze) {
+        this.poze = poze;
     }
 }
