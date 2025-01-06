@@ -1,7 +1,10 @@
 package com.dragos.gestiune_informatii.controller;
 
+import com.dragos.gestiune_informatii.model.*;
 import com.dragos.gestiune_informatii.service.CompetitiiMainService;
-import com.dragos.gestiune_informatii.model.CompetitiiMain;
+import com.dragos.gestiune_informatii.service.CategoriiService;
+import com.dragos.gestiune_informatii.service.PozeService;
+import com.dragos.gestiune_informatii.service.SponsoriService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,58 +17,72 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-@RequestMapping("/competitions")
+//@RequestMapping("/competitions")
 public class CompetitiiMainController {
 
     @Autowired
     private CompetitiiMainService competitiiMainService;
 
-    @GetMapping
+    @Autowired
+    private CategoriiService categoriiService;  // Service to handle categorii (categories)
+
+    @Autowired
+    private PozeService pozeService;  // Service to handle images (poze)
+
+    @Autowired
+    private SponsoriService sponsoriiService;  // Service to handle sponsors
+
+    @GetMapping("/competitions")
     public String getAllCompetitions(Model model) {
         List<CompetitiiMain> competitions = competitiiMainService.getAllCompetitions();
         model.addAttribute("competitions", competitions);
         return "competitions/list"; // Render a list of all competitions
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("competitions/{id}")
     public String getCompetitionDetails(@PathVariable Integer id, Model model) {
         CompetitiiMain competition = competitiiMainService.getCompetitionById(id);
         model.addAttribute("competition", competition);
-        model.addAttribute("organizator", competition.organizator);
+        model.addAttribute("organizator", competition.getOrganizator());
         return "competitions/details"; // Render the details of a single competition
     }
 
-    // Show the form for adding a new competition (only accessible by ADMIN)
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/add")
+//    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("competitions/add")
     public String showNewCompetitionForm(Model model) {
+        System.out.println("GET /competitions/add called");
         model.addAttribute("competitie", new CompetitiiMain());
         return "competitions/add"; // Show the add competition form
     }
 
     // Insert a new competition (POST request)
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/add")
+//    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("competitions/add")
     public String addCompetitie(
-            @RequestParam("competitionName") String competitionName,
-            @RequestParam("dataStart") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataStart,
-            @RequestParam("dataEnd") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataEnd,
-            @RequestParam("descriere") String descriere,
-            @RequestParam("detalii") String detalii,
-            @RequestParam("site") String site,
-            @RequestParam("status") boolean status,
-            @RequestParam("type") String type,
-            @RequestParam("organizerName") String organizerName,
+            @ModelAttribute CompetitiiMain competitie,
+            @RequestParam List<String> sport,
+            @RequestParam List<Integer> numarEchipe,
+            @RequestParam List<String> urlPoza,
+            @RequestParam List<String> altText,
+            @RequestParam List<String> denumire,
+            @RequestParam List<String> tipPachet,
+            @RequestParam String organizerName,  // Add this field to capture the organizer name
             Model model) {
+        System.out.println("POST /competitions/add called");
 
-        // Call the service method to add the competition
-        competitiiMainService.addCompetitie(
-                competitionName, dataStart, dataEnd, descriere, detalii, site, status, type, organizerName);
+        try {
+            // Call the service method to add the competition along with associated categories, images, sponsors, and organizer
+            competitiiMainService.addCompetitie(competitie, sport, numarEchipe, urlPoza, altText, denumire, tipPachet, organizerName);
 
-        model.addAttribute("message", "Competition added successfully!");
-
+            // Add success message to the model
+            model.addAttribute("message", "Competition added successfully!");
+        } catch (Exception e) {
+            // Add error message to the model in case of an exception
+            System.err.println("Error: " + e.getMessage());
+            model.addAttribute("message", "Error: " + e.getMessage());
+        }
         // Redirect to competition list after adding the competition
-        return "redirect:/competitions"; // Redirects to the list of competitions page
+        return "redirect:/competitions"; // Redirect or render as needed
     }
-}
 
+}

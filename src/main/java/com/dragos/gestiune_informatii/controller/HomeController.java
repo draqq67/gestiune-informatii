@@ -17,6 +17,8 @@ public class HomeController {
         pages.put("Add Competition", "/competitions/add");
         pages.put("View Competitions", "/competitions");
         pages.put("View meciuri", "/meciuri");
+        pages.put("View meciuri competitions", "/meciuri/competitions");
+        pages.put("see meciuri on each location", "/findByLocation" );
 //        pages.put("Add Organizer", "/add-organizer");
 //        pages.put("View Organizers", "/view-organizers");
 

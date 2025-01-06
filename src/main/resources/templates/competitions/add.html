@@ -1,75 +1,162 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <title>Add Competition</title>
-    <link rel="stylesheet" href="/css/add.css"> <!-- Optional: Link to a CSS file for styling -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Competition</title>
+    <link rel="stylesheet" href="path/to/your/styles.css">
 </head>
 <body>
-<div class="container">
-    <h1>Add New Competition</h1>
-    <form th:action="@{/competitions/add}" method="post">
-        <!-- Competition Name -->
-        <div class="form-group">
-            <label for="competitionName">Competition Name:</label>
-            <input type="text" id="competitionName" name="competitionName" class="form-control" required>
-        </div>
 
-        <!-- Start Date -->
-        <div class="form-group">
-            <label for="dataStart">Start Date:</label>
-            <input type="date" id="dataStart" name="dataStart" class="form-control" required>
-        </div>
-
-        <!-- End Date -->
-        <div class="form-group">
-            <label for="dataEnd">End Date:</label>
-            <input type="date" id="dataEnd" name="dataEnd" class="form-control" required>
-        </div>
-
-        <!-- Description -->
-        <div class="form-group">
-            <label for="descriere">Description:</label>
-            <textarea id="descriere" name="descriere" class="form-control" rows="3" required></textarea>
-        </div>
-
-        <!-- Details -->
-        <div class="form-group">
-            <label for="detalii">Details:</label>
-            <textarea id="detalii" name="detalii" class="form-control" rows="3" required></textarea>
-        </div>
-
-        <!-- Website -->
-        <div class="form-group">
-            <label for="site">Website:</label>
-            <input type="url" id="site" name="site" class="form-control">
-        </div>
-
-        <!-- Status -->
-        <div class="form-group">
-            <label for="status">Status:</label>
-            <select id="status" name="status" class="form-control" required>
-                <option value="true">Active</option>
-                <option value="false">Inactive</option>
-            </select>
-        </div>
-
-        <!-- Type -->
-        <div class="form-group">
-            <label for="type">Type:</label>
-            <input type="text" id="type" name="type" class="form-control" required>
-        </div>
-
-        <!-- Organizer Name -->
-        <div class="form-group">
-            <label for="organizerName">Organizer Name:</label>
-            <input type="text" id="organizerName" name="organizerName" class="form-control" required>
-        </div>
-
-        <!-- Submit Button -->
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Add Competition</button>
-        </div>
-    </form>
+<div th:if="${message}" class="alert">
+    <p th:text="${message}"></p>
 </div>
+<h1>Add New Competition</h1>
+<form action="/competitions/add" method="post" enctype="multipart/form-data">
+
+    <!-- Competition Details -->
+    <h3>Competition Details</h3>
+    <div>
+        <label for="competitionName">Competition Name:</label>
+        <input type="text" id="competitionName" name="competitionName" required>
+    </div>
+    <div>
+        <label for="dataStart">Start Date:</label>
+        <input type="date" id="dataStart" name="dataStart" >
+    </div>
+    <div>
+        <label for="dataEnd">End Date:</label>
+        <input type="date" id="dataEnd" name="dataEnd" >
+    </div>
+    <div>
+        <label for="descriere">Description:</label>
+        <textarea id="descriere" name="descriere" ></textarea>
+    </div>
+    <div>
+        <label for="detalii">Details:</label>
+        <textarea id="detalii" name="detalii" ></textarea>
+    </div>
+    <div>
+        <label for="site">Website:</label>
+        <input type="url" id="site" name="site" >
+    </div>
+    <div>
+        <label for="status">Status:</label>
+        <input type="checkbox" id="status" name="status" value="true">
+    </div>
+    <div>
+        <label for="type">Type:</label>
+        <input type="text" id="type" name="type" >
+    </div>
+    <div>
+        <label for="organizerName">Organizer Name:</label>
+        <input type="text" id="organizerName" name="organizerName" >
+    </div>
+
+    <!-- Categories -->
+    <h3>Categories</h3>
+    <div id="categories-container">
+        <div class="category">
+            <div>
+                <label for="sport">Sport:</label>
+                <input type="text" name="sport" id="sport" >
+            </div>
+            <div>
+                <label for="numarEchipe">Number of Teams:</label>
+                <input type="number" name="numarEchipe" id="numarEchipe" >
+            </div>
+            <button type="button" onclick="addCategory()">Add Another Category</button>
+        </div>
+    </div>
+
+    <!-- Images -->
+    <h3>Images</h3>
+    <div id="images-container">
+        <div class="image">
+            <div>
+                <label for="urlPoza">Image URL:</label>
+                <input type="url" name="urlPoza" id="urlPoza" >
+            </div>
+            <div>
+                <label for="altText">Alt Text:</label>
+                <input type="text" name="altText" id="altText" >
+            </div>
+            <button type="button" onclick="addImage()">Add Another Image</button>
+        </div>
+    </div>
+
+    <!-- Sponsors -->
+    <h3>Sponsors</h3>
+    <div id="sponsors-container">
+        <div class="sponsor">
+            <div>
+                <label for="denumire">Sponsor Name:</label>
+                <input type="text" name="denumire" id="denumire" >
+            </div>
+            <div>
+                <label for="tipPachet">Package Type:</label>
+                <input type="text" name="tipPachet" id="tipPachet" >
+            </div>
+            <button type="button" onclick="addSponsor()">Add Another Sponsor</button>
+        </div>
+    </div>
+
+    <br>
+    <button type="submit">Save Competition</button>
+</form>
+
+<script>
+    function addCategory() {
+        const container = document.getElementById('categories-container');
+        const category = document.createElement('div');
+        category.classList.add('category');
+        category.innerHTML = `
+                <div>
+                    <label for="sport">Sport:</label>
+                    <input type="text" name="sport" id="sport" required>
+                </div>
+                <div>
+                    <label for="numarEchipe">Number of Teams:</label>
+                    <input type="number" name="numarEchipe" id="numarEchipe" required>
+                </div>
+            `;
+        container.appendChild(category);
+    }
+
+    function addImage() {
+        const container = document.getElementById('images-container');
+        const image = document.createElement('div');
+        image.classList.add('image');
+        image.innerHTML = `
+                <div>
+                    <label for="urlPoza">Image URL:</label>
+                    <input type="url" name="urlPoza" id="urlPoza" required>
+                </div>
+                <div>
+                    <label for="altText">Alt Text:</label>
+                    <input type="text" name="altText" id="altText" required>
+                </div>
+            `;
+        container.appendChild(image);
+    }
+
+    function addSponsor() {
+        const container = document.getElementById('sponsors-container');
+        const sponsor = document.createElement('div');
+        sponsor.classList.add('sponsor');
+        sponsor.innerHTML = `
+                <div>
+                    <label for="denumire">Sponsor Name:</label>
+                    <input type="text" name="denumire" id="denumire" required>
+                </div>
+                <div>
+                    <label for="tipPachet">Package Type:</label>
+                    <input type="text" name="tipPachet" id="tipPachet" required>
+                </div>
+            `;
+        container.appendChild(sponsor);
+    }
+</script>
+
 </body>
 </html>

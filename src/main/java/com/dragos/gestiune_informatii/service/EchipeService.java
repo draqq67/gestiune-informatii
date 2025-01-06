@@ -28,4 +28,9 @@ public class EchipeService {
     public List<Echipe> getTeamsByYear(Integer year) {
         return echipeRepository.findTeamsByYear(year);
     }
+
+
+    public Echipe findById(Integer id) {
+        return echipeRepository.findTeamById(id);
+    }
 }

@@ -1,9 +1,11 @@
 package com.dragos.gestiune_informatii.service;
 
-import com.dragos.gestiune_informatii.model.CompetitiiMain;
-import com.dragos.gestiune_informatii.model.Organizatori;
+import com.dragos.gestiune_informatii.model.*;
+import com.dragos.gestiune_informatii.repository.CategoriiRepository;
 import com.dragos.gestiune_informatii.repository.CompetitiiMainRepository;
 import com.dragos.gestiune_informatii.repository.OrganizatoriRepository;
+import com.dragos.gestiune_informatii.repository.PozeRepository;
+import com.dragos.gestiune_informatii.repository.SponsoriRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +21,17 @@ public class CompetitiiMainService {
     private CompetitiiMainRepository competitiiMainRepository;
 
     @Autowired
+    private CategoriiRepository categoriiRepository;
+
+    @Autowired
+    private PozeRepository pozeRepository;
+
+    @Autowired
+    private SponsoriRepository sponsoriiRepository;
+
+    @Autowired
     private OrganizatoriRepository organizatoriRepository;
+
     public List<CompetitiiMain> getAllCompetitions() {
         return competitiiMainRepository.findAllCompetitions();
     }
@@ -28,31 +40,61 @@ public class CompetitiiMainService {
         return competitiiMainRepository.findCompetitionById(id);
     }
 
-    // Method to add a new competition
+    // Method to add a new competition along with related categories, images, and sponsors
     @Transactional
-    public void addCompetitie(String competitionName, Date dataStart, Date dataEnd, String descriere,
-                              String detalii, String site, boolean status, String type, String organizerName) {
-        // Check if the organizer exists
-        Organizatori organizer = organizatoriRepository.findByName(organizerName)
-                .orElseGet(() -> {
-                    Organizatori newOrganizer = new Organizatori();
-                    newOrganizer.setName(organizerName);
-                    return organizatoriRepository.save(newOrganizer);
-                });
+    public void addCompetitie(CompetitiiMain competitie,
+                              List<String> sport,
+                              List<Integer> numarEchipe,
+                              List<String> urlPoza,
+                              List<String> altText,
+                              List<String> denumire,
+                              List<String> tipPachet,
+                              String organizerName) {
 
-        // Create the competition
-        CompetitiiMain competition = new CompetitiiMain();
-        competition.setNume(competitionName);
-        competition.setDataStart(dataStart);
-        competition.setDataEnd(dataEnd);
-        competition.setDescriere(descriere);
-        competition.setDetalii(detalii);
-        competition.setSite(site);
-        competition.setStatus(status);
-        competition.setType(type);
-        competition.setOrganizator(organizer);
+        // Check if the organizer exists in the database
+        Organizatori organizator = organizatoriRepository.findByName(organizerName);
 
-        // Save the competition
-        competitiiMainRepository.save(competition);
+        // If the organizer does not exist, create a new one
+        if (organizator == null) {
+            organizator = new Organizatori();
+            organizator.setName(organizerName);
+            organizatoriRepository.save(organizator); // Save the new organizer to the database
+        }
+
+        // Associate the organizer with the competition
+        competitie.setOrganizator(organizator);
+
+        // Save the main competition
+        competitiiMainRepository.save(competitie);
+
+        // Add categories
+        for (int i = 0; i < sport.size(); i++) {
+            Categorii categorii = new Categorii();
+            categorii.setSport(sport.get(i));
+            categorii.setNumarEchipe(numarEchipe.get(i));
+            categorii.setCompetition(competitie);  // Associate category with competition
+            categoriiRepository.save(categorii);
+        }
+
+        // Add images
+        for (int i = 0; i < urlPoza.size(); i++) {
+            Poze poze = new Poze();
+            poze.setUrl(urlPoza.get(i));
+            poze.setAltText(altText.get(i));
+            poze.setCompetitiiMain(competitie);  // Associate image with competition
+            pozeRepository.save(poze);
+        }
+
+        // Add sponsors
+        for (int i = 0; i < denumire.size(); i++) {
+            Sponsori sponsorii = new Sponsori();
+            sponsorii.setDenumire(denumire.get(i));
+            sponsorii.setTip_pachet(tipPachet.get(i));
+            sponsorii.setCompetition(competitie);  // Associate sponsor with competition
+            sponsoriiRepository.save(sponsorii);
+        }
     }
+
+
 }
+

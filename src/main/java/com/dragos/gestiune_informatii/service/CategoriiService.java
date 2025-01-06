@@ -20,4 +20,7 @@ public class CategoriiService {
     public List<Categorii> getAllCategories() {
         return categoriiRepository.findAllCategories();
     }
+    public Categorii addCategorie(Categorii categorii) {
+        return categoriiRepository.save(categorii);
+    }
 }

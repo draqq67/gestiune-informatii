@@ -20,4 +20,7 @@ public interface EchipeRepository extends CrudRepository<Echipe, Integer> {
     // Query to find teams by establishment year
     @Query("SELECT e FROM Echipe e WHERE e.anInfiintare = :year")
     List<Echipe> findTeamsByYear(@Param("year") Integer year);
+
+    @Query("SELECT e FROM Echipe e WHERE e.id =:id")
+    Echipe findTeamById(@Param("id") Integer id);
 }

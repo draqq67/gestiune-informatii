@@ -1,9 +1,11 @@
 package com.dragos.gestiune_informatii.controller;
 
 import com.dragos.gestiune_informatii.model.*;
+import com.dragos.gestiune_informatii.repository.LocatiiRepository;
 import com.dragos.gestiune_informatii.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,7 @@ import java.util.List;
 
 
 @Controller
+
 public class MeciuriController {
 
     private final MeciuriService meciuriService;
@@ -23,22 +26,24 @@ public class MeciuriController {
     private final LocatiiService locatiiService;
     private final CategoriiService categoriiService;
     private final CompetitiiMainService competitiiMainService;
+    private final LocatiiRepository locatiiRepository;
 
     @Autowired
     public MeciuriController(MeciuriService meciuriService,
                              EchipeService echipeService,
                              LocatiiService locatiiService,
                              CategoriiService categoriiService,
-                             CompetitiiMainService competitiiMainService) {
+                             CompetitiiMainService competitiiMainService, LocatiiRepository locatiiRepository) {
         this.meciuriService = meciuriService;
         this.echipeService = echipeService;
         this.locatiiService = locatiiService;
         this.categoriiService = categoriiService;
         this.competitiiMainService = competitiiMainService;
+        this.locatiiRepository = locatiiRepository;
     }
 
     // Show add match form with all teams, categories, locations, and competitions
-//    @PreAuthorize("hasRole('ADMIN')")
+  @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/meciuri/add")
     public String showAddMatchForm(Model model) {
         List<Echipe> echipe = echipeService.getAllTeams();
@@ -55,6 +60,7 @@ public class MeciuriController {
     }
 
     // Handle the form submission for adding a new match
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/meciuri/add")
     public String addNewMatch(
             @RequestParam("dataMeci") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime dataMeci,
@@ -94,6 +100,7 @@ public class MeciuriController {
             return "meciuri/active";  // Redirect to the list of matches page if the match is not found
         }
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/meciuri/update/{id}")
     public String updateMatch(
             @PathVariable("id") Integer id,
@@ -125,5 +132,18 @@ public class MeciuriController {
         return "meciuri/activeMeciuri";  // Template to display active matches
     }
 
+    @GetMapping("/findByLocation")
+    public String showMatchesPage(Model model, @RequestParam(required = false) Integer locationId) {
+        List<Locatii> locations = locatiiRepository.findAllLocations(); // Fetch all locations for the search bar.
+        model.addAttribute("locations", locations);
 
+        if (locationId != null) {
+            List<Object[]> matches = meciuriService.getMatchesByLocation(locationId);
+            model.addAttribute("matches", matches);
+        }
+
+        return "meciuri/meciuriByLocation"; // Renders the "matches.html" page.
+    }
 }
+
+

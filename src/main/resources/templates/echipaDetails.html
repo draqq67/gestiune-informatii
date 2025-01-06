@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="'Team Details - ' + ${echipa.nume}">Team Details</title>
+    <link rel="stylesheet" href="/css/team-details.css">
+</head>
+<body>
+<header class="header">
+    <h1 th:text="'Team: ' + ${echipa.nume}">Team Name</h1>
+</header>
+
+<main>
+    <!-- Team Info Section -->
+    <section class="team-info">
+        <div class="team-logo">'
+            <img th:src="${echipa.logoUrl}" alt="Team Logo" onerror="this.style.display='none'">
+        </div>
+        <div class="team-details">
+            <p><strong>City:</strong> <span th:text="${echipa.oras}">City Name</span></p>
+            <p><strong>Founded:</strong> <span th:text="${echipa.anInfiintare}">Year</span></p>
+        </div>
+    </section>
+
+    <!-- Participants Section -->
+    <section class="participants">
+        <h2>Team Participants</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Email</th>
+                <th>Phone</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="participant : ${echipa.participanti}">
+                <td th:text="${participant.nume}">Participant Name</td>
+                <td th:text="${participant.varsta}">Age</td>
+                <td>
+                    <a th:href="'mailto:' + ${participant.email}" th:text="${participant.email}">Email</a>
+                </td>
+                <td>
+                    <a th:href="'tel:' + ${participant.telefon}" th:text="${participant.telefon}">Phone</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+
+<footer class="footer">
+    <a href="/meciuri" class="back-link">Back to Teams</a>
+</footer>
+</body>
+</html>

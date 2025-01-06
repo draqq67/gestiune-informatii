@@ -22,8 +22,18 @@ public interface MeciuriRepository extends CrudRepository<Meciuri, Integer> {
     List<Meciuri> findMatchesByCategory(@Param("categoryId") Integer categoryId);
 
     // Query to find matches by location
-    @Query("SELECT m FROM Meciuri m WHERE m.locatie.id = :locationId")
-    List<Meciuri> findMatchesByLocation(@Param("locationId") Integer locationId);
+    @Query(value = """
+    SELECT m.id_echipa1,
+           m.id_echipa2,
+           (SELECT e1.nume FROM echipe e1 WHERE e1.id = m.id_echipa1) AS team1_name,
+           (SELECT e2.nume FROM echipe e2 WHERE e2.id = m.id_echipa2) AS team2_name,
+           m.data_meci,
+           m.scor1,
+           m.scor2
+    FROM meciuri m
+    WHERE m.id_locatie = :locationId
+    """, nativeQuery = true)
+    List<Object[]> findMatchesByLocation(@Param("locationId") Integer locationId);
 
     // Query to find matches by status
     @Query("SELECT m FROM Meciuri m WHERE m.status = :status")

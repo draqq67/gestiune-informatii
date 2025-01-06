@@ -34,12 +34,22 @@
             <!-- Loop through the list of matches -->
             <tr th:each="match : ${meciuri}">
                 <td th:text="${match.categorie.competition.nume}"></td>
-                <td th:text="${match.categorie.sport}"></td> <!-- Assuming category has a name attribute -->
+                <td th:text="${match.categorie.sport}"></td>
                 <td th:text="${match.dataMeci}"></td>
-                <td th:text="${match.echipa1.nume}"></td> <!-- Assuming teams have a nume attribute -->
-                <td th:text="${match.echipa2.nume}"></td>
-                <td th:text="${match.locatie.adresa}"></td> <!-- Display location address -->
-                <td><a th:href="${match.locatie.urlmaps}" target="_blank">View on Map</a></td> <!-- Link to location map -->
+                <!-- Team 1 link -->
+                <td>
+                    <a th:href="@{/echipe/{id}(id=${match.echipa1.id})}" th:text="${match.echipa1.nume}">
+                        Team 1 Name
+                    </a>
+                </td>
+                <!-- Team 2 link -->
+                <td>
+                    <a th:href="@{/echipe/{id}(id=${match.echipa2.id})}" th:text="${match.echipa2.nume}">
+                        Team 2 Name
+                    </a>
+                </td>
+                <td th:text="${match.locatie.adresa}"></td>
+                <td><a th:href="${match.locatie.urlmaps}" target="_blank">View on Map</a></td>
                 <td th:text="${match.status}"></td>
                 <td th:text="${match.scor1}"></td>
                 <td th:text="${match.scor2}"></td>
@@ -48,14 +58,13 @@
         </table>
 
         <div class="add">
-            <a href = "/meciuri/add"> Add more meciuri </a>
+            <a href="/meciuri/add">Add more meciuri</a>
         </div>
         <div class="update">
-            <a href = "/meciuri/active"> Update meciuri </a>
+            <a href="/meciuri/active">Update meciuri</a>
         </div>
     </section>
 </main>
-
 
 </body>
 </html>

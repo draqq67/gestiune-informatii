@@ -27,7 +27,7 @@ public class MeciuriService {
         return meciuriRepository.findMatchesByCategory(categoryId);
     }
 
-    public List<Meciuri> getMatchesByLocation(Integer locationId) {
+    public List<Object[]> getMatchesByLocation(Integer locationId) {
         return meciuriRepository.findMatchesByLocation(locationId);
     }
 
