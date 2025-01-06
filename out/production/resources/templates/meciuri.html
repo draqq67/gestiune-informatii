@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matches Details</title>
+    <link rel="stylesheet" href="/css/meciuri.css">
+</head>
+<body>
+
+<header>
+    <h1>Match Details</h1>
+</header>
+
+<main>
+    <section>
+        <h2>Upcoming Matches</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Competitie</th>
+                <th>Category</th>
+                <th>Match Date</th>
+                <th>Team 1</th>
+                <th>Team 2</th>
+                <th>Location</th>
+                <th>Location Map</th>
+                <th>Status</th>
+                <th>Score</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Loop through the list of matches -->
+            <tr th:each="match : ${meciuri}">
+                <td th:text="${match.categorie.competition.nume}"></td>
+                <td th:text="${match.categorie.sport}"></td> <!-- Assuming category has a name attribute -->
+<!--                <td th:text="${match.dataMeci}"></td>-->
+                <td th:text="${match.echipa1.nume}"></td> <!-- Assuming teams have a nume attribute -->
+                <td th:text="${match.echipa2.nume}"></td>
+                <td th:text="${match.locatie.adresa}"></td> <!-- Display location address -->
+                <td><a th:href="${match.locatie.urlmaps}" target="_blank">View on Map</a></td> <!-- Link to location map -->
+                <td th:text="${match.status}"></td>
+                <td th:text="${match.scor}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="add">
+            <a href = "/meciuri/add"> Add more meciuri </a>
+        </div>
+    </section>
+</main>
+
+
+</body>
+</html>

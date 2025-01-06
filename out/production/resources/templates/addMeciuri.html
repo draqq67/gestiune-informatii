@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Match</title>
+    <link rel="stylesheet" href="/css/add.css">
+</head>
+<body>
+<div class="container">
+    <h1>Add New Match</h1>
+    <form action="#" th:action="@{/meciuri/add}" th:object="${meciuri}" method="post" class="form">
+<!--        <div class="form-group">-->
+<!--        <label for="competitie">Competition:</label>-->
+<!--        <select id="competitie" th:field="*{categorie.competition.id}" required>-->
+<!--&lt;!&ndash;            <option th:each="competitie : ${categorie.competition.id}" th:value="${categorie.competition.id}" th:text="${competitie.name}"></option>&ndash;&gt;-->
+<!--        </select>-->
+<!--        </div>-->
+        <div class="form-group">
+            <label for="categorie">Category:</label>
+            <select name="categorie" id="categorie" th:field="*{categorie}" required>
+                <option th:each="categorie : ${categorii}" th:value="${categorie.id}" th:text="${categorie.nume}"></option>
+            </select>
+        </div>
+
+<!--        <div class="form-group">-->
+<!--            <label for="dataMeci">Match Date:</label>-->
+<!--            <input type="datetime-local" id="dataMeci" th:field="*{data_meci}" required>-->
+<!--        </div>-->
+
+        <div class="form-group">
+            <label for="echipa1">Team 1:</label>
+            <select name="echipa1" id="echipa1" th:field="*{echipa1}" required>
+                <option th:each="echipa : ${echipe}" th:value="${echipa.id}" th:text="${echipa.nume}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="echipa2">Team 2:</label>
+            <select name="echipa2" id="echipa2" th:field="*{echipa2}" required>
+                <option th:each="echipa : ${echipe}" th:value="${echipa.id}" th:text="${echipa.nume}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="locatie">Location:</label>
+            <select name="locatie" id="locatie" th:field="*{locatie}" required>
+                <option th:each="locatie : ${locatii}" th:value="${locatie.id}" th:text="${locatie.adresa}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="status">Match Status:</label>
+            <input type="text" id="status" th:field="*{status}" placeholder="Enter match status (e.g. ongoing, completed)" required>
+        </div>
+
+        <div class="form-group">
+            <label for="scor">Score:</label>
+            <input type="text" id="scor" th:field="*{scor}" placeholder="Enter score (e.g. 3-1)" required>
+        </div>
+
+        <button type="submit" class="btn">Add Match</button>
+    </form>
+</div>
+</body>
+</html>
