@@ -30,7 +30,6 @@
         @Query("SELECT c FROM CompetitiiMain c")
         List<CompetitiiMain> findAllCompetitions();
 
-        // Fetch a competition by ID
         @Query("SELECT c FROM CompetitiiMain c WHERE c.id = :id")
         CompetitiiMain findCompetitionById(@Param("id") Integer id);
     }

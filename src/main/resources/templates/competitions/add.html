@@ -1,5 +1,7 @@
+<!-- add.html -->
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,153 +10,153 @@
 </head>
 <body>
 
-<div th:if="${message}" class="alert">
-    <p th:text="${message}"></p>
-</div>
 <h1>Add New Competition</h1>
-<form action="/competitions/add" method="post" enctype="multipart/form-data">
+<form th:action="@{/competitions/add}" method="post" enctype="multipart/form-data">
 
-    <!-- Competition Details -->
-    <h3>Competition Details</h3>
-    <div>
-        <label for="competitionName">Competition Name:</label>
-        <input type="text" id="competitionName" name="competitionName" required>
-    </div>
-    <div>
-        <label for="dataStart">Start Date:</label>
-        <input type="date" id="dataStart" name="dataStart" >
-    </div>
-    <div>
-        <label for="dataEnd">End Date:</label>
-        <input type="date" id="dataEnd" name="dataEnd" >
-    </div>
-    <div>
-        <label for="descriere">Description:</label>
-        <textarea id="descriere" name="descriere" ></textarea>
-    </div>
-    <div>
-        <label for="detalii">Details:</label>
-        <textarea id="detalii" name="detalii" ></textarea>
-    </div>
-    <div>
-        <label for="site">Website:</label>
-        <input type="url" id="site" name="site" >
-    </div>
-    <div>
-        <label for="status">Status:</label>
-        <input type="checkbox" id="status" name="status" value="true">
-    </div>
-    <div>
-        <label for="type">Type:</label>
-        <input type="text" id="type" name="type" >
-    </div>
-    <div>
-        <label for="organizerName">Organizer Name:</label>
-        <input type="text" id="organizerName" name="organizerName" >
-    </div>
-
-    <!-- Categories -->
-    <h3>Categories</h3>
-    <div id="categories-container">
-        <div class="category">
-            <div>
-                <label for="sport">Sport:</label>
-                <input type="text" name="sport" id="sport" >
-            </div>
-            <div>
-                <label for="numarEchipe">Number of Teams:</label>
-                <input type="number" name="numarEchipe" id="numarEchipe" >
-            </div>
-            <button type="button" onclick="addCategory()">Add Another Category</button>
+    <!-- Competition Details Section -->
+    <fieldset>
+        <legend>Competition Details</legend>
+        <div>
+            <label for="competitionName">Competition Name:</label>
+            <input type="text" id="competitionName" name="competitionName" required>
         </div>
-    </div>
-
-    <!-- Images -->
-    <h3>Images</h3>
-    <div id="images-container">
-        <div class="image">
-            <div>
-                <label for="urlPoza">Image URL:</label>
-                <input type="url" name="urlPoza" id="urlPoza" >
-            </div>
-            <div>
-                <label for="altText">Alt Text:</label>
-                <input type="text" name="altText" id="altText" >
-            </div>
-            <button type="button" onclick="addImage()">Add Another Image</button>
+        <div>
+            <label for="dataStart">Start Date:</label>
+            <input type="date" id="dataStart" name="dataStart" required>
         </div>
-    </div>
-
-    <!-- Sponsors -->
-    <h3>Sponsors</h3>
-    <div id="sponsors-container">
-        <div class="sponsor">
-            <div>
-                <label for="denumire">Sponsor Name:</label>
-                <input type="text" name="denumire" id="denumire" >
-            </div>
-            <div>
-                <label for="tipPachet">Package Type:</label>
-                <input type="text" name="tipPachet" id="tipPachet" >
-            </div>
-            <button type="button" onclick="addSponsor()">Add Another Sponsor</button>
+        <div>
+            <label for="dataEnd">End Date:</label>
+            <input type="date" id="dataEnd" name="dataEnd" required>
         </div>
-    </div>
 
-    <br>
-    <button type="submit">Save Competition</button>
+        <div>
+            <label for="descriere">Description:</label>
+            <textarea id="descriere" name="descriere"></textarea>
+        </div>
+        <div>
+            <label for="detalii">Details:</label>
+            <textarea id="detalii" name="detalii"></textarea>
+        </div>
+        <div>
+            <label for="site">Website:</label>
+            <input type="url" id="site" name="site">
+        </div>
+        <div>
+            <label for="status">Status:</label>
+            <input type="checkbox" id="status" name="status">
+        </div>
+        <div>
+            <label for="type">Type:</label>
+            <input type="text" id="type" name="type">
+        </div>
+        <div>
+            <label for="organizerName">Organizer Name:</label>
+            <input type="text" id="organizerName" name="organizerName" required>
+        </div>
+    </fieldset>
+
+    <!-- Categories Section -->
+    <fieldset>
+        <legend>Categories</legend>
+        <div id="categories-container">
+            <div>
+                <label for="sport-0">Sport:</label>
+                <input type="text" id="sport-0" name="sports[]" required>
+            </div>
+            <div>
+                <label for="numarEchipe-0">Number of Teams:</label>
+                <input type="number" id="numarEchipe-0" name="teamNumbers[]" required>
+            </div>
+        </div>
+        <button type="button" onclick="addCategory()">Add Another Category</button>
+    </fieldset>
+
+    <!-- Images Section -->
+    <fieldset>
+        <legend>Images</legend>
+        <div id="images-container">
+            <div>
+                <label for="urlPoza-0">Image URL:</label>
+                <input type="url" id="urlPoza-0" name="imageUrls[]" required>
+            </div>
+            <div>
+                <label for="altText-0">Alt Text:</label>
+                <input type="text" id="altText-0" name="altTexts[]" required>
+            </div>
+        </div>
+        <button type="button" onclick="addImage()">Add Another Image</button>
+    </fieldset>
+
+    <!-- Sponsors Section -->
+    <fieldset>
+        <legend>Sponsors</legend>
+        <div id="sponsors-container">
+            <div>
+                <label for="sponsorName-0">Sponsor Name:</label>
+                <input type="text" id="sponsorName-0" name="sponsorNames[]" required>
+            </div>
+            <div>
+                <label for="sponsorPackage-0">Sponsor Package:</label>
+                <input type="text" id="sponsorPackage-0" name="sponsorPackages[]" required>
+            </div>
+        </div>
+        <button type="button" onclick="addSponsor()">Add Another Sponsor</button>
+    </fieldset>
+
+    <button type="submit">Submit</button>
 </form>
 
 <script>
+    let categoryIndex = 1;
+    let imageIndex = 1;
+    let sponsorIndex = 1;
+
     function addCategory() {
         const container = document.getElementById('categories-container');
-        const category = document.createElement('div');
-        category.classList.add('category');
-        category.innerHTML = `
-                <div>
-                    <label for="sport">Sport:</label>
-                    <input type="text" name="sport" id="sport" required>
-                </div>
-                <div>
-                    <label for="numarEchipe">Number of Teams:</label>
-                    <input type="number" name="numarEchipe" id="numarEchipe" required>
-                </div>
-            `;
-        container.appendChild(category);
+        const newCategory = `
+            <div>
+                <label for="sport-${categoryIndex}">Sport:</label>
+                <input type="text" id="sport-${categoryIndex}" name="sports[]" required>
+            </div>
+            <div>
+                <label for="numarEchipe-${categoryIndex}">Number of Teams:</label>
+                <input type="number" id="numarEchipe-${categoryIndex}" name="teamNumbers[]" required>
+            </div>
+        `;
+        container.innerHTML += newCategory;
+        categoryIndex++;
     }
 
     function addImage() {
         const container = document.getElementById('images-container');
-        const image = document.createElement('div');
-        image.classList.add('image');
-        image.innerHTML = `
-                <div>
-                    <label for="urlPoza">Image URL:</label>
-                    <input type="url" name="urlPoza" id="urlPoza" required>
-                </div>
-                <div>
-                    <label for="altText">Alt Text:</label>
-                    <input type="text" name="altText" id="altText" required>
-                </div>
-            `;
-        container.appendChild(image);
+        const newImage = `
+            <div>
+                <label for="urlPoza-${imageIndex}">Image URL:</label>
+                <input type="url" id="urlPoza-${imageIndex}" name="imageUrls[]" required>
+            </div>
+            <div>
+                <label for="altText-${imageIndex}">Alt Text:</label>
+                <input type="text" id="altText-${imageIndex}" name="altTexts[]" required>
+            </div>
+        `;
+        container.innerHTML += newImage;
+        imageIndex++;
     }
 
     function addSponsor() {
         const container = document.getElementById('sponsors-container');
-        const sponsor = document.createElement('div');
-        sponsor.classList.add('sponsor');
-        sponsor.innerHTML = `
-                <div>
-                    <label for="denumire">Sponsor Name:</label>
-                    <input type="text" name="denumire" id="denumire" required>
-                </div>
-                <div>
-                    <label for="tipPachet">Package Type:</label>
-                    <input type="text" name="tipPachet" id="tipPachet" required>
-                </div>
-            `;
-        container.appendChild(sponsor);
+        const newSponsor = `
+            <div>
+                <label for="sponsorName-${sponsorIndex}">Sponsor Name:</label>
+                <input type="text" id="sponsorName-${sponsorIndex}" name="sponsorNames[]" required>
+            </div>
+            <div>
+                <label for="sponsorPackage-${sponsorIndex}">Sponsor Package:</label>
+                <input type="text" id="sponsorPackage-${sponsorIndex}" name="sponsorPackages[]" required>
+            </div>
+        `;
+        container.innerHTML += newSponsor;
+        sponsorIndex++;
     }
 </script>
 

@@ -1,88 +1,90 @@
 package com.dragos.gestiune_informatii.controller;
 
 import com.dragos.gestiune_informatii.model.*;
-import com.dragos.gestiune_informatii.service.CompetitiiMainService;
-import com.dragos.gestiune_informatii.service.CategoriiService;
-import com.dragos.gestiune_informatii.service.PozeService;
-import com.dragos.gestiune_informatii.service.SponsoriService;
+import com.dragos.gestiune_informatii.repository.CompetitiiMainRepository;
+import com.dragos.gestiune_informatii.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Controller
-//@RequestMapping("/competitions")
 public class CompetitiiMainController {
 
     @Autowired
     private CompetitiiMainService competitiiMainService;
 
     @Autowired
-    private CategoriiService categoriiService;  // Service to handle categorii (categories)
+    private CategoriiService categoriiService;
 
     @Autowired
-    private PozeService pozeService;  // Service to handle images (poze)
+    private PozeService pozeService;
 
     @Autowired
-    private SponsoriService sponsoriiService;  // Service to handle sponsors
+    private CompetitiiMainRepository competitiiMainRepository;
+
+    @Autowired
+    private SponsoriService sponsoriService;
+
+    @Autowired
+    private OrganizatoriService organizatoriService;
 
     @GetMapping("/competitions")
     public String getAllCompetitions(Model model) {
         List<CompetitiiMain> competitions = competitiiMainService.getAllCompetitions();
         model.addAttribute("competitions", competitions);
-        return "competitions/list"; // Render a list of all competitions
+        return "competitions/list";
     }
-
-    @GetMapping("competitions/{id}")
+    @GetMapping("/competitions/{id}")
     public String getCompetitionDetails(@PathVariable Integer id, Model model) {
         CompetitiiMain competition = competitiiMainService.getCompetitionById(id);
         model.addAttribute("competition", competition);
-        model.addAttribute("organizator", competition.getOrganizator());
+        model.addAttribute("organizator", competition.organizator);
+
         return "competitions/details"; // Render the details of a single competition
     }
-
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("competitions/add")
     public String showNewCompetitionForm(Model model) {
-        System.out.println("GET /competitions/add called");
         model.addAttribute("competitie", new CompetitiiMain());
-        return "competitions/add"; // Show the add competition form
+        return "competitions/add"; // Return the add competition form
     }
 
-    // Insert a new competition (POST request)
-//    @PreAuthorize("hasRole('ADMIN')")
+    // POST: Handle the form submission for adding a new competition
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("competitions/add")
     public String addCompetitie(
-            @ModelAttribute CompetitiiMain competitie,
-            @RequestParam List<String> sport,
-            @RequestParam List<Integer> numarEchipe,
-            @RequestParam List<String> urlPoza,
-            @RequestParam List<String> altText,
-            @RequestParam List<String> denumire,
-            @RequestParam List<String> tipPachet,
-            @RequestParam String organizerName,  // Add this field to capture the organizer name
+            @RequestParam("competitionName") String competitionName,
+            @RequestParam("dataStart") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataStart,
+            @RequestParam("dataEnd") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataEnd,
+            @RequestParam("descriere") String descriere,
+            @RequestParam("detalii") String detalii,
+            @RequestParam("site") String site,
+            @RequestParam("status") boolean status,
+            @RequestParam("type") String type,
+            @RequestParam("organizerName") String organizerName,
+            @RequestParam("sports") List<String> sports,
+            @RequestParam("teamNumbers") List<Integer> teamNumbers,
+            @RequestParam("imageUrls") List<String> imageUrls,
+            @RequestParam("altTexts") List<String> altTexts,
+            @RequestParam("sponsorNames") List<String> sponsorNames,
+            @RequestParam("sponsorPackages") List<String> sponsorPackages,
             Model model) {
-        System.out.println("POST /competitions/add called");
 
-        try {
-            // Call the service method to add the competition along with associated categories, images, sponsors, and organizer
-            competitiiMainService.addCompetitie(competitie, sport, numarEchipe, urlPoza, altText, denumire, tipPachet, organizerName);
+        // Call the service method to add the competition
+        competitiiMainService.addCompetitieWithDetails(
+                competitionName, dataStart, dataEnd, descriere, detalii, site, status, type, organizerName,
+                sports, teamNumbers, imageUrls, altTexts, sponsorNames, sponsorPackages);
 
-            // Add success message to the model
-            model.addAttribute("message", "Competition added successfully!");
-        } catch (Exception e) {
-            // Add error message to the model in case of an exception
-            System.err.println("Error: " + e.getMessage());
-            model.addAttribute("message", "Error: " + e.getMessage());
-        }
-        // Redirect to competition list after adding the competition
-        return "redirect:/competitions"; // Redirect or render as needed
+        model.addAttribute("message", "Competition added successfully!");
+
+        // Redirect to the competition list after adding
+        return "redirect:/competitions"; // Redirects to the list of competitions page
     }
-
 }

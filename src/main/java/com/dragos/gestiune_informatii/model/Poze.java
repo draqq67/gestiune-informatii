@@ -19,6 +19,7 @@ public class Poze {
     @JoinColumn(name = "id_competitie_main",referencedColumnName ="id", nullable = false)  // Foreign key in Categorii table
     private CompetitiiMain competitiiMain;
 
+
     public Integer getId() {
         return id;
     }

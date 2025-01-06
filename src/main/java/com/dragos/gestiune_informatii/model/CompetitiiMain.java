@@ -3,6 +3,8 @@ package com.dragos.gestiune_informatii.model;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 @Entity
@@ -16,10 +18,10 @@ public class CompetitiiMain {
     @Column(name = "nume")
     private String nume;
 
-    @Column(name = "data_start")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dataStart;
 
-    @Column(name = "data_end")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dataEnd;
 
     @Column(name = "descriere")
@@ -43,14 +45,14 @@ public class CompetitiiMain {
 
 
     // One competition can have multiple categories
-    @OneToMany(mappedBy = "competition", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "competition", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Categorii> categorii = new ArrayList<>();
 
-    @OneToMany(mappedBy = "competition", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "competition", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     public List<Sponsori> sponsor = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "competitiiMain", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "competitiiMain", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     public List<Poze> poze = new ArrayList<>();
 
 

@@ -13,7 +13,8 @@ import java.util.Optional;
 public interface OrganizatoriRepository extends CrudRepository<Organizatori, Integer> {
 
     // Find organizer by name
-    Organizatori findByName(String name);
+    // Find organizer by name
+    Optional<Organizatori> findByName(String name);
 
     // Insert new organizer if it doesn't exist
     @Modifying
