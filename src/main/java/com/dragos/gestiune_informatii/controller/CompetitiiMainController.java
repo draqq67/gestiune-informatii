@@ -41,6 +41,7 @@ public class CompetitiiMainController {
         model.addAttribute("competitions", competitions);
         return "competitions/list";
     }
+
     @GetMapping("/competitions/{id}")
     public String getCompetitionDetails(@PathVariable Integer id, Model model) {
         CompetitiiMain competition = competitiiMainService.getCompetitionById(id);
@@ -49,6 +50,7 @@ public class CompetitiiMainController {
 
         return "competitions/details"; // Render the details of a single competition
     }
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("competitions/add")
     public String showNewCompetitionForm(Model model) {
@@ -87,4 +89,25 @@ public class CompetitiiMainController {
         // Redirect to the competition list after adding
         return "redirect:/competitions"; // Redirects to the list of competitions page
     }
+
+    @GetMapping("/competitions/{id}/categorii")
+    @ResponseBody
+    public List<Object[]> getCategoriiByCompetitie(@PathVariable("id") Long competitieId) {
+        return categoriiService.findCategoriiByCompetitie(competitieId);
+    }
+    @GetMapping("/competitions/participants")
+    public String viewParticipants(@RequestParam(value = "competitionId", required = false) Integer competitionId, Model model) {
+        // Fetch all competitions for the dropdown in the UI
+        List<CompetitiiMain> competitions = competitiiMainService.getAllCompetitions();
+        model.addAttribute("competitions", competitions);
+
+        // If a specific competition is selected, fetch its participants
+        if (competitionId != null) {
+            List<Object[]> participants = competitiiMainService.getParticipantsByCompetitionId(competitionId);
+            model.addAttribute("participants", participants);
+        }
+
+        return "competitions/view-participants-competition"; // Thymeleaf template name
+    }
+
 }

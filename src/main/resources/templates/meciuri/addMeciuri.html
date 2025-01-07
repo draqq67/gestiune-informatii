@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add New Match</title>
     <link rel="stylesheet" href="/css/add.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -17,10 +18,11 @@
     <div th:if="${error}" class="alert alert-danger">
         <p th:text="${error}"></p>
     </div>
+
     <form action="#" th:action="@{/meciuri/add}" th:object="${meciuri}" method="post" class="form">
         <div class="form-group">
             <label for="competitie">Competition:</label>
-            <select id="competitie"  required>
+            <select id="competitie" required>
                 <option th:each="competitie : ${competitie}" th:value="${competitie.id}" th:text="${competitie.nume}"></option>
             </select>
         </div>
@@ -28,7 +30,7 @@
         <div class="form-group">
             <label for="categorie">Category:</label>
             <select name="categorie" id="categorie" th:field="*{categorie}" required>
-                <option th:each="categorie : ${categorii}" th:value="${categorie.id}" th:text="${categorie.sport}"></option>
+                <option value="">Select Category</option>
             </select>
         </div>
 
@@ -78,5 +80,37 @@
         <button type="submit" class="btn">Add Match</button>
     </form>
 </div>
+
+<script>
+    $(document).ready(function() {
+        // When the competition is changed, update the categories
+        $('#competitie').change(function() {
+            var competitieId = $(this).val();
+            if (competitieId) {
+                // AJAX request to fetch categories for selected competition
+                $.ajax({
+                    url: '/competitions/' + competitieId + '/categorii', // API endpoint
+                    method: 'GET',
+                    success: function(data) {
+                        var categorieSelect = $('#categorie');
+                        categorieSelect.empty();  // Clear existing options
+                        categorieSelect.append('<option value="">Select Category</option>');  // Default option
+
+                        // Loop through the response and append options to the category select
+                        $.each(data, function(index, categorie) {
+                            categorieSelect.append('<option value="' + categorie[0] + '">' + categorie[1] + '</option>');
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX request failed:', error);
+                    }
+                });
+            } else {
+                $('#categorie').empty();
+                $('#categorie').append('<option value="">Select Category</option>');
+            }
+        });
+    });
+</script>
 </body>
 </html>

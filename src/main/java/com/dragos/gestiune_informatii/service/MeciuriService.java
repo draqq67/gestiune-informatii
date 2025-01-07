@@ -52,4 +52,8 @@ public class MeciuriService {
     public List<Meciuri> getMatchesByStatus(String active) {
         return meciuriRepository.findMatchesByStatus(active);
     }
+
+    public List<Meciuri> getMatchesAndCompetitions(Long competitieId) {
+        return meciuriRepository.findMatchesAndCompetitionsByCompetitieId(competitieId);
+    }
 }

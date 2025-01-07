@@ -32,4 +32,28 @@
 
         @Query("SELECT c FROM CompetitiiMain c WHERE c.id = :id")
         CompetitiiMain findCompetitionById(@Param("id") Integer id);
+
+        @Query(value = """
+        SELECT p.id, p.nume, p.email, p.telefon
+        FROM participanti p
+        WHERE p.id_echipa IN (
+            SELECT m.id_echipa1
+            FROM meciuri m
+            WHERE m.id_categorie IN (
+                SELECT c.id
+                FROM categorii c
+                WHERE c.competition_id = :competitionId
+            )
+            UNION
+            SELECT m.id_echipa2
+            FROM meciuri m
+            WHERE m.id_categorie IN (
+                SELECT c.id
+                FROM categorii c
+                WHERE c.competition_id = :competitionId
+            )
+        )
+        """, nativeQuery = true)
+        List<Object[]> findParticipantsByCompetitionId(@Param("competitionId") Integer competitionId);
+
     }

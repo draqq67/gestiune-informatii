@@ -101,5 +101,8 @@ public class CompetitiiMainService {
         return competitiiMainRepository.findCompetitionById(id);
     }
 
+    public List<Object[]> getParticipantsByCompetitionId(Integer competitionId) {
+        return competitiiMainRepository.findParticipantsByCompetitionId(competitionId);
+    }
 }
 

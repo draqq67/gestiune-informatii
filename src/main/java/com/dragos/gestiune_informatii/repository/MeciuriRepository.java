@@ -73,5 +73,12 @@ public interface MeciuriRepository extends CrudRepository<Meciuri, Integer> {
     // Query to get a match by its ID
     @Query("SELECT m FROM Meciuri m WHERE m.id = :id")
     Meciuri getMatchById(@Param("id") Integer id);
+
+    @Query("SELECT m FROM Meciuri m" +
+            " JOIN m.categorie c " +
+            " JOIN c.competition co " +
+            " WHERE co.id = :competitieId")
+    List<Meciuri> findMatchesAndCompetitionsByCompetitieId(@Param("competitieId") Long competitieId);
+
 }
 

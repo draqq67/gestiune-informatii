@@ -88,6 +88,7 @@ public class MeciuriController {
         model.addAttribute("meciuri", meciuri);
         return "meciuri/meciuri";
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/meciuri/update/{id}")
     public String showUpdateMatchForm(@PathVariable("id") Integer id, Model model) {
         // Fetch the match from the database using the id
@@ -144,6 +145,20 @@ public class MeciuriController {
 
         return "meciuri/meciuriByLocation"; // Renders the "matches.html" page.
     }
+    @GetMapping("/meciuri/competition")
+    public String viewMatches(@RequestParam(value = "competitieId", required = false) Long competitieId, Model model) {
+        List<CompetitiiMain> competitions = competitiiMainService.getAllCompetitions(); // Fetch all competitions
+        model.addAttribute("competitions", competitions);
+
+        if (competitieId != null) {
+            List<Meciuri> matchesAndCompetitions = meciuriService.getMatchesAndCompetitions(competitieId);
+            model.addAttribute("meciuri", matchesAndCompetitions);
+        }
+
+        return "meciuri/view-meciuri-competition"; // Thymeleaf template name
+    }
+
+
 }
 
 

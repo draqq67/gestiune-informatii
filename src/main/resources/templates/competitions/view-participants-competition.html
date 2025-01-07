@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Participants by Competition</title>
+    <link rel = "stylesheet" type = "text/css" href = /css/view-participants.css  />
+</head>
+<body>
+    <h1>View Participants by Competition</h1>
+
+    <!-- Competition Dropdown -->
+    <form th:action="@{/competitions/participants}" method="get">
+        <label for="competitionId">Select Competition:</label>
+        <select name="competitionId" id="competitionId">
+            <option value="" th:text="'-- Select Competition --'"></option>
+            <option th:each="competition : ${competitions}"
+                    th:value="${competition.id}"
+                    th:text="${competition.nume}"></option>}">
+            </option>
+        </select>
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Participants Table -->
+    <div th:if="${participants != null}">
+        <h2>Participants</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="participant : ${participants}">
+                    <td th:text="${participant[1]}"></td>
+                    <td th:text="${participant[2]}"></td>
+                    <td th:text="${participant[3]}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

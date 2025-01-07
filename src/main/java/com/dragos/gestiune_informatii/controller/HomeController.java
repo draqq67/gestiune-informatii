@@ -17,14 +17,15 @@ public class HomeController {
         pages.put("Add Competition", "/competitions/add");
         pages.put("View Competitions", "/competitions");
         pages.put("View meciuri", "/meciuri");
-        pages.put("View meciuri competitions", "/meciuri/competitions");
+        pages.put("View meciuri competitions", "/meciuri/competition");
         pages.put("see meciuri on each location", "/findByLocation" );
+        pages.put("see participants from every competition","/competitions/participants");
 //        pages.put("Add Organizer", "/add-organizer");
 //        pages.put("View Organizers", "/view-organizers");
 
         model.addAttribute("pages", pages);
         model.addAttribute("projectDescription", "This project is a platform for managing information about competitions, organizers, and more. It allows users to add, update, and view data intuitively.");
-        model.addAttribute("githubLink", "https://github.com/your-github-repo");
+        model.addAttribute("githubLink", "https://github.com/draqq67/gestiune-informatii");
 
         return "home";
     }

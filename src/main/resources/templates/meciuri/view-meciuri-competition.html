@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Matches by Competition</title>
+    <link rel="stylesheet" href="/css/findByLocation.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Select a Competition to View Matches</h1>
+
+    <!-- Competition Dropdown -->
+    <form action="/meciuri/competition" method="get">
+        <div>
+            <label for="competitieId">Competition:</label>
+            <select name="competitieId" id="competitieId" required>
+                <option value="">Select a competition</option>
+                <th:block th:each="competition : ${competitions}">
+                    <option th:value="${competition.id}" th:text="${competition.nume}"></option>
+                </th:block>
+            </select>
+        </div>
+
+        <button type="submit">View Matches</button>
+    </form>
+
+    <!-- Display Matches if competition is selected -->
+    <div th:if="${meciuri}">
+        <h2>Matches for <span th:text="${meciuri[0].categorie.competition.nume}">Competition Name</span></h2>
+
+        <div class="matches-table">
+            <table>
+                <thead>
+                <tr>
+                    <th>Categorie</th>
+                    <th>Team 1</th>
+                    <th>Team 2</th>
+                    <th>Match Date</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Score</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="match : ${meciuri}">
+                    <td th:text="${match.categorie.sport}"></td> <!-- Match ID -->
+                    <td th:text="${match.echipa1.nume}"></td> <!-- Team 1 -->
+                    <td th:text="${match.echipa2.nume}"></td> <!-- Team 2 -->
+                    <td th:text="${match.dataMeci}"></td> <!-- Match Date -->
+                    <td th:text="${match.locatie.adresa}"></td> <!-- Location -->
+                    <td th:text="${match.status}"></td> <!-- Status -->
+                    <td>
+                        <span th:text="${match.scor1}">0</span> - <span th:text="${match.scor2}">0</span> <!-- Score -->
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

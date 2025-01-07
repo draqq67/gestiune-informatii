@@ -23,4 +23,10 @@ public class CategoriiService {
     public Categorii addCategorie(Categorii categorii) {
         return categoriiRepository.save(categorii);
     }
+
+    public List<Object[]> findCategoriiByCompetitie(Long competitieId) {
+        return categoriiRepository.findByCompetitieId(competitieId);
+
+    }
+
 }

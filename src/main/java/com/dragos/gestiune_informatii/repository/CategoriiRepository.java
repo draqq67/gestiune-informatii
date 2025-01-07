@@ -12,4 +12,8 @@ public interface CategoriiRepository extends CrudRepository<Categorii, Integer> 
 
     @Query("SELECT c FROM Categorii c")
     List<Categorii> findAllCategories();  // Custom query to fetch all categories
+
+    @Query("SELECT c.id, c.sport FROM Categorii c WHERE c.competition.id = :competitieId")
+    List<Object[]> findByCompetitieId(Long competitieId);
+
 }
