@@ -14,16 +14,12 @@ public class Locatii {
     @Column(name = "urlmaps")
     private String urlmaps;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_competitie_main",referencedColumnName ="id", nullable = false)  // Foreign key in Categorii table
-    private CompetitiiMain competition;
 
     public Locatii(){
     }
-    public Locatii(String adresa, String urlmaps,CompetitiiMain competition) {
+    public Locatii(String adresa, String urlmaps) {
         this.adresa = adresa;
         this.urlmaps = urlmaps;
-        this.competition = competition;
     }
 
     public Integer getId() {
@@ -44,11 +40,5 @@ public class Locatii {
     }
     public void setUrlmaps(String urlmaps) {
         this.urlmaps = urlmaps;
-    }
-    public CompetitiiMain getCompetition() {
-        return competition;
-    }
-    public void setCompetition(CompetitiiMain competition) {
-        this.competition = competition;
     }
 }

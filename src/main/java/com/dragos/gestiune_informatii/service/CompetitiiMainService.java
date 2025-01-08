@@ -104,5 +104,17 @@ public class CompetitiiMainService {
     public List<Object[]> getParticipantsByCompetitionId(Integer competitionId) {
         return competitiiMainRepository.findParticipantsByCompetitionId(competitionId);
     }
+
+    public Object[] getCompetitionStatisticsByName(String name) {
+        return competitiiMainRepository.getCompetitionStatisticsByName(name);
+    }
+
+    @Transactional
+    public void deleteCompetitionAndRelatedData(String competitionName) {
+        competitiiMainRepository.deleteCompetitionAndRelatedData(competitionName);
+    }
+
+
+
 }
 

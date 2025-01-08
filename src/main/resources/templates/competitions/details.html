@@ -19,14 +19,25 @@
   <span th:text="${competition.detalii != null ? competition.detalii : 'No details available'}">Details</span>
 </p>
 
+<!-- Statistics Section -->
+<div>
+  <h2>Statistics</h2>
+  <ul>
+    <li><strong>Total Participants:</strong> <span th:text="${statistics[0][0]}">0</span></li>
+    <li><strong>Total Matches:</strong> <span th:text="${statistics[0][1]}">0</span></li>
+    <li><strong>Total Categories:</strong> <span th:text="${statistics[0][2]}">0</span></li>
+  </ul>
+</div>
+
 <p><strong>Categories:</strong></p>
 <ul>
   <li th:each="category : ${competition.categorii}">
-    <span th:text="${category.sport != null ? category.sport : 'Unknown Sport'}">Category Sport</span>
-    (<span th:text="${category.numarEchipe != null ? category.numarEchipe : 0}">Number of Teams</span>)
+    <a th:href="@{/competitions/{competitionId}/categories/{categoryId}/players(competitionId=${competition.id}, categoryId=${category.id})}">
+      View Players for Category: <span th:text="${category.sport}"></span>
+    </a>
   </li>
-
 </ul>
+
 <p><strong>Sponsors:</strong></p>
 <ul>
   <li th:each="sponsor : ${competition.sponsor}">
@@ -35,12 +46,13 @@
     <span><strong>Package Type:</strong> <span th:text="${sponsor.tip_pachet}">Package Type</span></span>
   </li>
 </ul>
+
 <p><strong>Photos:</strong></p>
-<div class = "photos">
+<div class="photos">
   <div th:each="poza : ${competition.poze}" style="display: flex; align-items: center; gap: 1rem; border: 1px solid #ddd; padding: 1rem;">
     <img th:src="${poza.url}" th:alt="${poza.altText}" style="width: 150px; height: 150px; object-fit: cover; border-radius: 8px;" />
   </div>
 </div>
-</ul>
+
 </body>
 </html>

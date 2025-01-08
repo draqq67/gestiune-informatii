@@ -20,6 +20,7 @@ public class HomeController {
         pages.put("View meciuri competitions", "/meciuri/competition");
         pages.put("see meciuri on each location", "/findByLocation" );
         pages.put("see participants from every competition","/competitions/participants");
+        pages.put("delete competitii and related data","/competitions/delete");
 //        pages.put("Add Organizer", "/add-organizer");
 //        pages.put("View Organizers", "/view-organizers");
 

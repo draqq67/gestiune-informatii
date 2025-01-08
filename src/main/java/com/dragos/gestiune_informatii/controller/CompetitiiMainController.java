@@ -10,9 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class CompetitiiMainController {
@@ -48,7 +46,30 @@ public class CompetitiiMainController {
         model.addAttribute("competition", competition);
         model.addAttribute("organizator", competition.organizator);
 
+        if (competition.getNume() != null) {
+            Object[] statistics = competitiiMainService.getCompetitionStatisticsByName(competition.getNume());
+            model.addAttribute("statistics", statistics);
+            System.out.println("Statistics: " + Arrays.toString(statistics));
+
+        }
         return "competitions/details"; // Render the details of a single competition
+    }
+    @GetMapping("/competitions/{competitionId}/categories/{categoryId}/players")
+    public String getCategoryPlayers(@PathVariable Integer competitionId,
+                                     @PathVariable Integer categoryId, Model model) {
+        // Fetch the competition details
+        CompetitiiMain competition = competitiiMainService.getCompetitionById(competitionId);
+        model.addAttribute("competition", competition);
+
+        // Fetch participants by category
+        List<Object[]> participants = categoriiService.findParticipantiByCategoryId(categoryId);
+        model.addAttribute("participants", participants);
+
+        // Optionally, add category info to display on the page
+        Categorii category = categoriiService.getCategoryByID(categoryId); // Assuming you have a service for categories
+        model.addAttribute("category", category);
+
+        return "competitions/category-players"; // Return the view for the category's participants
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -109,5 +130,25 @@ public class CompetitiiMainController {
 
         return "competitions/view-participants-competition"; // Thymeleaf template name
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("competitions/delete")
+    public String showDeleteForm(Model model) {
+        // Add a list of all competitions to the model for selection
+        model.addAttribute("competitions", competitiiMainService.getAllCompetitions());
+        return "competitions/delete"; // Render delete form page
+    }
+
+    @PostMapping("competitions/delete")
+    public String deleteCompetition(@RequestParam String competitionName, Model model) {
+        try {
+            competitiiMainService.deleteCompetitionAndRelatedData(competitionName);
+            model.addAttribute("message", "Competition and related data deleted successfully.");
+        } catch (Exception e) {
+            model.addAttribute("message", "Error deleting competition: " + e.getMessage());
+        }
+        return "competitions/delete";
+    }
+
 
 }

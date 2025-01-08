@@ -29,4 +29,12 @@ public class CategoriiService {
 
     }
 
+    public List<Object[]> findParticipantiByCategoryId(Integer competitieId) {
+        return categoriiRepository.findParticipantsByCategoryId(competitieId);
+    }
+
+    public Categorii getCategoryByID(Integer categoryId) {
+        return categoriiRepository.findByCategoryId(categoryId);
+    }
+
 }

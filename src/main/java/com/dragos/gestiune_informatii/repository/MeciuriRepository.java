@@ -79,6 +79,16 @@ public interface MeciuriRepository extends CrudRepository<Meciuri, Integer> {
             " JOIN c.competition co " +
             " WHERE co.id = :competitieId")
     List<Meciuri> findMatchesAndCompetitionsByCompetitieId(@Param("competitieId") Long competitieId);
+    @Query("""
+    SELECT p.id, p.nume AS participant_name, e.nume AS team_name, m.id AS match_id, m.dataMeci
+    FROM Participanti p
+    JOIN p.idEchipa e
+    JOIN Meciuri m ON (m.echipa1.id = e.id OR m.echipa2.id = e.id)
+    JOIN m.categorie c
+    WHERE c.id = :categorieId
+""")
+    List<Object[]> findParticipantsWithTeamAndMatchInfo(@Param("categorieId") Integer categorieId);
+
 
 }
 
