@@ -80,7 +80,16 @@
         @Modifying
         @Transactional
         @Query(value = """
-        DELETE FROM Meciuri m WHERE m.id_categorie.competition.nume = :competitionName; 
+        DELETE FROM Meciuri
+           WHERE id_categorie IN (
+               SELECT c.id
+               FROM Categorii c
+               WHERE c.competition_id = (
+                   SELECT id
+                   FROM Competitii_Main
+                   WHERE nume = :competitionName
+               )
+           );        
         DELETE FROM sponsori WHERE competition_id = (SELECT id FROM competitii_main WHERE nume = :competitionName);
         DELETE FROM poze p WHERE p.id_competitie_main = (SELECT id FROM competitii_main WHERE nume = :competitionName);
         DELETE FROM categorii WHERE competition_id = (SELECT id FROM competitii_main WHERE nume = :competitionName);

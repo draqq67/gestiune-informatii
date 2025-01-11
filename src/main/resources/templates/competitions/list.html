@@ -8,8 +8,8 @@
 <h1>Competitions</h1>
 <ul>
   <li th:each="competition : ${competitions}">
-    <a th:href="@{'/competitions/' + ${competition.id}}">
-      <span th:text="${competition.nume}">Competition Name</span>
+    <a th:href="@{'/competitii/' + ${competition.id}}">
+      <span th:text="${competition.nume}">Numele competitiei</span>
     </a>
   </li>
 </ul>

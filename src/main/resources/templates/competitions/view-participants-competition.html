@@ -8,16 +8,16 @@
     <h1>View Participants by Competition</h1>
 
     <!-- Competition Dropdown -->
-    <form th:action="@{/competitions/participants}" method="get">
-        <label for="competitionId">Select Competition:</label>
+    <form th:action="@{/competitii/participanti}" method="get">
+        <label for="competitionId">Selecteaza Competitia</label>
         <select name="competitionId" id="competitionId">
-            <option value="" th:text="'-- Select Competition --'"></option>
+            <option value="" th:text="'-- Selectea Competitia --'"></option>
             <option th:each="competition : ${competitions}"
                     th:value="${competition.id}"
                     th:text="${competition.nume}"></option>}">
             </option>
         </select>
-        <button type="submit">Search</button>
+        <button type="submit">Cauta</button>
     </form>
 
     <!-- Participants Table -->
@@ -26,9 +26,9 @@
         <table>
             <thead>
                 <tr>
-                    <th>Name</th>
+                    <th>Nume</th>
                     <th>Email</th>
-                    <th>Phone</th>
+                    <th>Telefon</th>
                 </tr>
             </thead>
             <tbody>

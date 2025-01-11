@@ -11,30 +11,30 @@
 <body>
 
 <h1>Add New Competition</h1>
-<form th:action="@{/competitions/add}" method="post" enctype="multipart/form-data">
+<form th:action="@{/competitii/adauga}" method="post" enctype="multipart/form-data">
 
     <!-- Competition Details Section -->
     <fieldset>
-        <legend>Competition Details</legend>
+        <legend>Detalii competitii</legend>
         <div>
-            <label for="competitionName">Competition Name:</label>
+            <label for="competitionName">Numele competitiei</label>
             <input type="text" id="competitionName" name="competitionName" required>
         </div>
         <div>
-            <label for="dataStart">Start Date:</label>
+            <label for="dataStart">Data de inceput</label>
             <input type="date" id="dataStart" name="dataStart" required>
         </div>
         <div>
-            <label for="dataEnd">End Date:</label>
+            <label for="dataEnd">Data de incheiere :</label>
             <input type="date" id="dataEnd" name="dataEnd" required>
         </div>
 
         <div>
-            <label for="descriere">Description:</label>
+            <label for="descriere">Descriere:</label>
             <textarea id="descriere" name="descriere"></textarea>
         </div>
         <div>
-            <label for="detalii">Details:</label>
+            <label for="detalii">Detalii:</label>
             <textarea id="detalii" name="detalii"></textarea>
         </div>
         <div>
@@ -46,34 +46,34 @@
             <input type="checkbox" id="status" name="status">
         </div>
         <div>
-            <label for="type">Type:</label>
+            <label for="type">Tip:</label>
             <input type="text" id="type" name="type">
         </div>
         <div>
-            <label for="organizerName">Organizer Name:</label>
+            <label for="organizerName">Nume organizator :</label>
             <input type="text" id="organizerName" name="organizerName" required>
         </div>
     </fieldset>
 
     <!-- Categories Section -->
     <fieldset>
-        <legend>Categories</legend>
+        <legend>Categorii</legend>
         <div id="categories-container">
             <div>
                 <label for="sport-0">Sport:</label>
                 <input type="text" id="sport-0" name="sports[]" required>
             </div>
             <div>
-                <label for="numarEchipe-0">Number of Teams:</label>
+                <label for="numarEchipe-0">Number de echipe</label>
                 <input type="number" id="numarEchipe-0" name="teamNumbers[]" required>
             </div>
         </div>
-        <button type="button" onclick="addCategory()">Add Another Category</button>
+        <button type="button" onclick="addCategory()">Adauga alta categorie</button>
     </fieldset>
 
     <!-- Images Section -->
     <fieldset>
-        <legend>Images</legend>
+        <legend>Imagini</legend>
         <div id="images-container">
             <div>
                 <label for="urlPoza-0">Image URL:</label>
@@ -84,7 +84,7 @@
                 <input type="text" id="altText-0" name="altTexts[]" required>
             </div>
         </div>
-        <button type="button" onclick="addImage()">Add Another Image</button>
+        <button type="button" onclick="addImage()">Adauga alta imagine</button>
     </fieldset>
 
     <!-- Sponsors Section -->
@@ -92,18 +92,18 @@
         <legend>Sponsors</legend>
         <div id="sponsors-container">
             <div>
-                <label for="sponsorName-0">Sponsor Name:</label>
+                <label for="sponsorName-0">Nume Sponsor:</label>
                 <input type="text" id="sponsorName-0" name="sponsorNames[]" required>
             </div>
             <div>
-                <label for="sponsorPackage-0">Sponsor Package:</label>
+                <label for="sponsorPackage-0">Tip sponsor :</label>
                 <input type="text" id="sponsorPackage-0" name="sponsorPackages[]" required>
             </div>
         </div>
-        <button type="button" onclick="addSponsor()">Add Another Sponsor</button>
+        <button type="button" onclick="addSponsor()">Adauga alt sponsor</button>
     </fieldset>
 
-    <button type="submit">Submit</button>
+    <button type="submit">Trimite</button>
 </form>
 
 <script>

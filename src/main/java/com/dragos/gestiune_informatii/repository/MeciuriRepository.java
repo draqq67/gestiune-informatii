@@ -70,6 +70,12 @@ public interface MeciuriRepository extends CrudRepository<Meciuri, Integer> {
                            @Param("scor1") Integer scor1,
                            @Param("scor2") Integer scor2);
 
+    @Modifying
+    @Transactional
+    @Query("UPDATE Meciuri m SET m.status =:status where m.id=:id")
+            void updateStatus(@Param("id") Integer id, @Param("status") String status);
+
+
     // Query to get a match by its ID
     @Query("SELECT m FROM Meciuri m WHERE m.id = :id")
     Meciuri getMatchById(@Param("id") Integer id);

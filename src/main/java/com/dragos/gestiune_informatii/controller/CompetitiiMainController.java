@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @Controller
+
 public class CompetitiiMainController {
 
     @Autowired
@@ -33,14 +34,14 @@ public class CompetitiiMainController {
     @Autowired
     private OrganizatoriService organizatoriService;
 
-    @GetMapping("/competitions")
+    @GetMapping("/competitii")
     public String getAllCompetitions(Model model) {
         List<CompetitiiMain> competitions = competitiiMainService.getAllCompetitions();
         model.addAttribute("competitions", competitions);
         return "competitions/list";
     }
 
-    @GetMapping("/competitions/{id}")
+    @GetMapping("/competitii/{id}")
     public String getCompetitionDetails(@PathVariable Integer id, Model model) {
         CompetitiiMain competition = competitiiMainService.getCompetitionById(id);
         model.addAttribute("competition", competition);
@@ -54,7 +55,7 @@ public class CompetitiiMainController {
         }
         return "competitions/details"; // Render the details of a single competition
     }
-    @GetMapping("/competitions/{competitionId}/categories/{categoryId}/players")
+    @GetMapping("/competitii/{competitionId}/categorii/{categoryId}/participanti")
     public String getCategoryPlayers(@PathVariable Integer competitionId,
                                      @PathVariable Integer categoryId, Model model) {
         // Fetch the competition details
@@ -73,7 +74,7 @@ public class CompetitiiMainController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("competitions/add")
+    @GetMapping("competitii/adauga")
     public String showNewCompetitionForm(Model model) {
         model.addAttribute("competitie", new CompetitiiMain());
         return "competitions/add"; // Return the add competition form
@@ -81,7 +82,7 @@ public class CompetitiiMainController {
 
     // POST: Handle the form submission for adding a new competition
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("competitions/add")
+    @PostMapping("competitii/adauga")
     public String addCompetitie(
             @RequestParam("competitionName") String competitionName,
             @RequestParam("dataStart") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataStart,
@@ -108,15 +109,15 @@ public class CompetitiiMainController {
         model.addAttribute("message", "Competition added successfully!");
 
         // Redirect to the competition list after adding
-        return "redirect:/competitions"; // Redirects to the list of competitions page
+        return "redirect:/competitii"; // Redirects to the list of competitions page
     }
 
-    @GetMapping("/competitions/{id}/categorii")
+    @GetMapping("/competitii/{id}/categorii")
     @ResponseBody
     public List<Object[]> getCategoriiByCompetitie(@PathVariable("id") Long competitieId) {
         return categoriiService.findCategoriiByCompetitie(competitieId);
     }
-    @GetMapping("/competitions/participants")
+    @GetMapping("/competitii/participanti")
     public String viewParticipants(@RequestParam(value = "competitionId", required = false) Integer competitionId, Model model) {
         // Fetch all competitions for the dropdown in the UI
         List<CompetitiiMain> competitions = competitiiMainService.getAllCompetitions();
@@ -132,14 +133,14 @@ public class CompetitiiMainController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("competitions/delete")
+    @GetMapping("competitii/sterge")
     public String showDeleteForm(Model model) {
         // Add a list of all competitions to the model for selection
         model.addAttribute("competitions", competitiiMainService.getAllCompetitions());
         return "competitions/delete"; // Render delete form page
     }
 
-    @PostMapping("competitions/delete")
+    @PostMapping("competitii/sterge")
     public String deleteCompetition(@RequestParam String competitionName, Model model) {
         try {
             competitiiMainService.deleteCompetitionAndRelatedData(competitionName);

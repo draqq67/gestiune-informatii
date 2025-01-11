@@ -3,27 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Matches by Competition</title>
+    <title>Meciuri pe competitie</title>
     <link rel="stylesheet" href="/css/findByLocation.css">
 </head>
 <body>
 
 <div class="container">
-    <h1>Select a Competition to View Matches</h1>
+    <h1>Alege o competitie pt a-i vedea meciurile</h1>
 
     <!-- Competition Dropdown -->
-    <form action="/meciuri/competition" method="get">
+    <form action="/meciuri/competitii" method="get">
         <div>
-            <label for="competitieId">Competition:</label>
+            <label for="competitieId">Competitie:</label>
             <select name="competitieId" id="competitieId" required>
-                <option value="">Select a competition</option>
+                <option value="">Selecteza o competitie</option>
                 <th:block th:each="competition : ${competitions}">
                     <option th:value="${competition.id}" th:text="${competition.nume}"></option>
                 </th:block>
             </select>
         </div>
 
-        <button type="submit">View Matches</button>
+        <button type="submit">Vezi Meciuri</button>
     </form>
 
     <!-- Display Matches if competition is selected -->
@@ -35,9 +35,9 @@
                 <thead>
                 <tr>
                     <th>Categorie</th>
-                    <th>Team 1</th>
-                    <th>Team 2</th>
-                    <th>Match Date</th>
+                    <th>Echipa 1</th>
+                    <th>Echipa 2</th>
+                    <th>Data meciului</th>
                     <th>Location</th>
                     <th>Status</th>
                     <th>Score</th>

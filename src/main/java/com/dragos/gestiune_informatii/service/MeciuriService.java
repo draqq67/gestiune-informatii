@@ -56,4 +56,7 @@ public class MeciuriService {
     public List<Meciuri> getMatchesAndCompetitions(Long competitieId) {
         return meciuriRepository.findMatchesAndCompetitionsByCompetitieId(competitieId);
     }
+    public void updateStatusMatch(Meciuri match) {
+        meciuriRepository.updateStatus(match.getId(),match.getStatus());
+    }
 }

@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="'Team Details - ' + ${echipa.nume}">Team Details</title>
+    <title th:text="'Team Details - ' + ${echipa.nume}">Detalii Echipe</title>
     <link rel="stylesheet" href="/css/team-details.css">
 </head>
 <body>
 <header class="header">
-    <h1 th:text="'Team: ' + ${echipa.nume}">Team Name</h1>
+    <h1 th:text="'Team: ' + ${echipa.nume}">Nume echipa</h1>
 </header>
 
 <main>
@@ -18,21 +18,21 @@
             <img th:src="${echipa.logoUrl}" alt="Team Logo" onerror="this.style.display='none'">
         </div>
         <div class="team-details">
-            <p><strong>City:</strong> <span th:text="${echipa.oras}">City Name</span></p>
-            <p><strong>Founded:</strong> <span th:text="${echipa.anInfiintare}">Year</span></p>
+            <p><strong>Oras</strong> <span th:text="${echipa.oras}">Oras</span></p>
+            <p><strong>Fondat:</strong> <span th:text="${echipa.anInfiintare}">an</span></p>
         </div>
     </section>
 
     <!-- Participants Section -->
     <section class="participants">
-        <h2>Team Participants</h2>
+        <h2>Participanti</h2>
         <table>
             <thead>
             <tr>
-                <th>Name</th>
-                <th>Age</th>
+                <th>Nume</th>
+                <th>Varsta</th>
                 <th>Email</th>
-                <th>Phone</th>
+                <th>Telefon</th>
             </tr>
             </thead>
             <tbody>

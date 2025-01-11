@@ -1,53 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title th:text="${competition.nume != null ? competition.nume : 'Competition Details'}">Competition Details</title>
+  <title th:text="${competition.nume != null ? competition.nume : 'Competition Details'}">Detalii Competitii</title>
   <link rel="stylesheet" href="/css/list.css">
 </head>
 <body>
-<h1 th:text="${competition.nume != null ? competition.nume : 'Competition Name'}">Competition Name</h1>
+<h1 th:text="${competition.nume != null ? competition.nume : 'Competition Name'}">Numele competitei</h1>
 
 <p><strong>Organizer:</strong>
-  <span th:text="${organizator != null ? organizator.name : 'Organizer Name'}">Organizer Name</span>
+  <span th:text="${organizator != null ? organizator.name : 'Organizer Name'}">Numele organizatorului</span>
 </p>
 
 <p><strong>Description:</strong>
-  <span th:text="${competition.descriere != null ? competition.descriere : 'No description available'}">Description</span>
+  <span th:text="${competition.descriere != null ? competition.descriere : 'No description available'}">Descriere</span>
 </p>
 
 <p><strong>Details:</strong>
-  <span th:text="${competition.detalii != null ? competition.detalii : 'No details available'}">Details</span>
+  <span th:text="${competition.detalii != null ? competition.detalii : 'No details available'}">Detalii</span>
 </p>
 
 <!-- Statistics Section -->
 <div>
-  <h2>Statistics</h2>
+  <h2>Statistici</h2>
   <ul>
-    <li><strong>Total Participants:</strong> <span th:text="${statistics[0][0]}">0</span></li>
-    <li><strong>Total Matches:</strong> <span th:text="${statistics[0][1]}">0</span></li>
-    <li><strong>Total Categories:</strong> <span th:text="${statistics[0][2]}">0</span></li>
+    <li><strong>Total Participanti:</strong> <span th:text="${statistics[0][0]}">0</span></li>
+    <li><strong>Total Meciuri</strong> <span th:text="${statistics[0][1]}">0</span></li>
+    <li><strong>Total Categorii:</strong> <span th:text="${statistics[0][2]}">0</span></li>
   </ul>
 </div>
 
-<p><strong>Categories:</strong></p>
+<p><strong>Categorii:</strong></p>
 <ul>
   <li th:each="category : ${competition.categorii}">
-    <a th:href="@{/competitions/{competitionId}/categories/{categoryId}/players(competitionId=${competition.id}, categoryId=${category.id})}">
-      View Players for Category: <span th:text="${category.sport}"></span>
+    <a th:href="@{/competitii/{competitionId}/categorii/{categoryId}/participanti(competitionId=${competition.id}, categoryId=${category.id})}">
+      Vezi jucatori pe categorie <span th:text="${category.sport}"></span>
     </a>
   </li>
 </ul>
 
-<p><strong>Sponsors:</strong></p>
+<p><strong>Sponsori:</strong></p>
 <ul>
   <li th:each="sponsor : ${competition.sponsor}">
-    <span><strong>Name:</strong> <span th:text="${sponsor.denumire}">Sponsor Name</span></span>
+    <span><strong>Nume: </strong> <span th:text="${sponsor.denumire}">Nume:</span></span>
     <br/>
-    <span><strong>Package Type:</strong> <span th:text="${sponsor.tip_pachet}">Package Type</span></span>
+    <span><strong>Pachet: </strong> <span th:text="${sponsor.tip_pachet}">Pachet</span></span>
   </li>
 </ul>
 
-<p><strong>Photos:</strong></p>
+<p><strong>Poze</strong></p>
 <div class="photos">
   <div th:each="poza : ${competition.poze}" style="display: flex; align-items: center; gap: 1rem; border: 1px solid #ddd; padding: 1rem;">
     <img th:src="${poza.url}" th:alt="${poza.altText}" style="width: 150px; height: 150px; object-fit: cover; border-radius: 8px;" />

@@ -15,8 +15,8 @@
 </div>
 
 <!-- Form to delete competition -->
-<form th:action="@{/competitions/delete}" method="post">
-    <label for="competitionName">Select Competition to Delete:</label>
+<form th:action="@{/competitii/sterge}" method="post">
+    <label for="competitionName">Alege competitia de sters:</label>
     <select name="competitionName" id="competitionName" required>
         <option th:each="competition : ${competitions}"
                 th:value="${competition.nume}"

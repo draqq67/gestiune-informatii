@@ -44,7 +44,7 @@ public class MeciuriController {
 
     // Show add match form with all teams, categories, locations, and competitions
   @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/meciuri/add")
+    @GetMapping("/meciuri/adauga")
     public String showAddMatchForm(Model model) {
         List<Echipe> echipe = echipeService.getAllTeams();
         List<Categorii> categorii = categoriiService.getAllCategories();
@@ -61,7 +61,7 @@ public class MeciuriController {
 
     // Handle the form submission for adding a new match
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/meciuri/add")
+    @PostMapping("/meciuri/adauga")
     public String addNewMatch(
             @RequestParam("dataMeci") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime dataMeci,
             @RequestParam("echipa1") Integer echipa1,
@@ -89,7 +89,7 @@ public class MeciuriController {
         return "meciuri/meciuri";
     }
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/meciuri/update/{id}")
+    @GetMapping("/meciuri/updateaza/{id}")
     public String showUpdateMatchForm(@PathVariable("id") Integer id, Model model) {
         // Fetch the match from the database using the id
         Meciuri match = meciuriService.getMatchById(id);
@@ -98,15 +98,16 @@ public class MeciuriController {
             return "meciuri/updateMeciuri";  // The template for updating the match
         } else {
             model.addAttribute("error", "Match not found!");
-            return "meciuri/active";  // Redirect to the list of matches page if the match is not found
+            return "meciuri/activeMeciuri";  // Redirect to the list of matches page if the match is not found
         }
     }
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/meciuri/update/{id}")
+    @PostMapping("/meciuri/updateaza/{id}")
     public String updateMatch(
             @PathVariable("id") Integer id,
             @RequestParam("scor1") Integer scor1,
             @RequestParam("scor2") Integer scor2,
+            @RequestParam("status") String status,
             Model model) {
         try {
             // Find the match by its ID
@@ -115,8 +116,10 @@ public class MeciuriController {
                 // Update the scores
                 match.setScor1(scor1);
                 match.setScor2(scor2);
+                match.setStatus(status);
                 // Save the updated match to the database
                 meciuriService.updateMatch(match);
+                meciuriService.updateStatusMatch(match);
                 model.addAttribute("success", "Match scores updated successfully!");
             } else {
                 model.addAttribute("error", "Match not found!");
@@ -133,7 +136,7 @@ public class MeciuriController {
         return "meciuri/activeMeciuri";  // Template to display active matches
     }
 
-    @GetMapping("/findByLocation")
+    @GetMapping("/GasesteDupaLocatie")
     public String showMatchesPage(Model model, @RequestParam(required = false) Integer locationId) {
         List<Locatii> locations = locatiiRepository.findAllLocations(); // Fetch all locations for the search bar.
         model.addAttribute("locations", locations);
@@ -145,7 +148,7 @@ public class MeciuriController {
 
         return "meciuri/meciuriByLocation"; // Renders the "matches.html" page.
     }
-    @GetMapping("/meciuri/competition")
+    @GetMapping("/meciuri/competitii")
     public String viewMatches(@RequestParam(value = "competitieId", required = false) Long competitieId, Model model) {
         List<CompetitiiMain> competitions = competitiiMainService.getAllCompetitions(); // Fetch all competitions
         model.addAttribute("competitions", competitions);

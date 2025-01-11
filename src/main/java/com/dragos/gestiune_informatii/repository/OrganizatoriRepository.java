@@ -14,6 +14,7 @@ public interface OrganizatoriRepository extends CrudRepository<Organizatori, Int
 
     // Find organizer by name
     // Find organizer by name
+//    @Query("Select Organizatori from Organizatori where Organizatori.name=:name")
     Optional<Organizatori> findByName(String name);
 
     // Insert new organizer if it doesn't exist

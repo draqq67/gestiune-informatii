@@ -3,31 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Active Matches</title>
+    <title>Meciuri Active</title>
     <link rel="stylesheet" href="/css/meciuri.css">
 </head>
 <body>
 
 <header>
-    <h1>Active Matches</h1>
+    <h1>Meciuri Active</h1>
 </header>
 
 <main>
     <section>
-        <h2>Active Matches</h2>
+        <h2>Meciuri Active</h2>
         <table>
             <thead>
             <tr>
                 <th>Competitie</th>
-                <th>Category</th>
-                <th>Match Date</th>
-                <th>Team 1</th>
-                <th>Team 2</th>
+                <th>Categorie</th>
+                <th>Data meciului</th>
+                <th>Echipa 1</th>
+                <th>Echipa 2</th>
                 <th>Location</th>
                 <th>Status</th>
                 <th>Scor Echipa 1</th>
                 <th>Scor Echipa 2</th>
-                <th>Actions</th>
+                <th>Actiuni</th>
             </tr>
             </thead>
             <tbody>
@@ -44,14 +44,14 @@
                 <td th:text="${match.scor2}"></td> <!-- Score Team 2 -->
                 <td>
                     <!-- Link to the update page for this match -->
-                    <a th:href="@{/meciuri/update/{id}(id=${match.id})}">Update</a>
+                    <a th:href="@{/meciuri/updateaza/{id}(id=${match.id})}">Updateaza</a>
                 </td>
             </tr>
             </tbody>
         </table>
 
         <div class="add">
-            <a href="/meciuri/add"> Add more matches </a>
+            <a href="/meciuri/adauga"> Add more matches </a>
         </div>
     </section>
 </main>
