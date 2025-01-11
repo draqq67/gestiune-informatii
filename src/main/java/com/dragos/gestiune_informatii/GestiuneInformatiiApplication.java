@@ -1,3 +1,9 @@
+/**
+ * Clasa pentru GestiuneInformatiiApplication
+ * @author Zarnescu Dragos
+ * @version 11 Ianuarie 2025
+ */
+
 package com.dragos.gestiune_informatii;
 
 import org.springframework.boot.SpringApplication;

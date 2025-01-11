@@ -1,3 +1,9 @@
+/**
+ * Clasa pentru HomeController
+ * @author Zarnescu Dragos
+ * @version 11 Ianuarie 2025
+ */
+
 package com.dragos.gestiune_informatii.controller;
 
 import org.springframework.stereotype.Controller;

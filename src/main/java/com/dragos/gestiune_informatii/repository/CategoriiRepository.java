@@ -1,3 +1,8 @@
+/**
+ * Clasa pentru CategoriiRepository
+ * @author Zarnescu Dragos
+ * @version 11 Ianuarie 2025
+ */
 package com.dragos.gestiune_informatii.repository;
 
 import com.dragos.gestiune_informatii.model.Categorii;
