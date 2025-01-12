@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Match Scores</title>
+    <link rel="stylesheet" href="/css/add.css">
+</head>
+<body>
+<div class="container">
+    <h1>Updateaza Scorurile Meciurilor</h1>
+
+    <!-- Success/Error Message -->
+    <div th:if="${success}" class="alert alert-success">
+        <p th:text="${success}"></p>
+    </div>
+    <div th:if="${error}" class="alert alert-danger">
+        <p th:text="${error}"></p>
+    </div>
+
+    <form action="#" th:action="@{/meciuri/updateaza/{id}(id=${match.id})}" th:object="${match}" method="post" class="form">
+
+        <!-- Score for Team 1 -->
+        <div class="form-group">
+            <label for="scor1">Scor pentru Echipa 1:</label>
+            <input type="number" id="scor1" th:field="*{scor1}" required>
+        </div>
+
+        <!-- Score for Team 2 -->
+        <div class="form-group">
+            <label for="scor2">Scor pentru Echipa 2:</label>
+            <input type="number" id="scor2" th:field="*{scor2}"  required>
+        </div>
+        <div class="form-group">
+            <label for="status">Status</label>
+            <input type="text" id="status" th:field="*{status}" required>
+        </div>
+
+
+        <input type="hidden" name="_csrf" value="${_csrf.token}">
+
+        <button type="submit" class="btn">Updateaza Meci</button>
+    </form>
+</div>
+</body>
+</html>

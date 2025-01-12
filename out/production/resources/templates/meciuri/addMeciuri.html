@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Match</title>
+    <link rel="stylesheet" href="/css/add.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Add New Match</h1>
+    <div th:if="${success}" class="alert alert-success">
+        <p th:text="${success}"></p>
+    </div>
+
+    <!-- Error Message -->
+    <div th:if="${error}" class="alert alert-danger">
+        <p th:text="${error}"></p>
+    </div>
+
+    <form action="#" th:action="@{/meciuri/adauga}" th:object="${meciuri}" method="post" class="form">
+        <div class="form-group">
+            <label for="competitie">Competitie:</label>
+            <select id="competitie" required>
+                <option th:each="competitie : ${competitie}" th:value="${competitie.id}" th:text="${competitie.nume}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="categorie">Categorie:</label>
+            <select name="categorie" id="categorie" th:field="*{categorie}" required>
+                <option value="">Selecteaza Categoria</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="dataMeci">Data meciului</label>
+            <input type="datetime-local" id="dataMeci" th:field="*{dataMeci}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="echipa1">Echipa 1:</label>
+            <select name="echipa1" id="echipa1" th:field="*{echipa1}" required>
+                <option th:each="echipa : ${echipe}" th:value="${echipa.id}" th:text="${echipa.nume}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="echipa2">Echipa 2:</label>
+            <select name="echipa2" id="echipa2" th:field="*{echipa2}" required>
+                <option th:each="echipa : ${echipe}" th:value="${echipa.id}" th:text="${echipa.nume}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="locatie">Locatie:</label>
+            <select name="locatie" id="locatie" th:field="*{locatie}" required>
+                <option th:each="locatie : ${locatii}" th:value="${locatie.id}" th:text="${locatie.adresa}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="status">Status:</label>
+            <input type="text" id="status" th:field="*{status}" placeholder="active/in desfasurare/trecut" required>
+        </div>
+
+        <div class="form-group">
+            <label for="scor1">Scor pentru Echipa 1:</label>
+            <input type="number" id="scor1" th:field="*{scor1}"  required>
+        </div>
+
+        <div class="form-group">
+            <label for="scor2">Scor pentru Echipa 2:</label>
+            <input type="number" id="scor2" th:field="*{scor2}" required>
+        </div>
+
+        <input type="hidden" name="_csrf" value="${_csrf.token}">
+
+        <button type="submit" class="btn">Adauga meci</button>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function() {
+        // When the competition is changed, update the categories
+        $('#competitie').change(function() {
+            var competitieId = $(this).val();
+            if (competitieId) {
+                // AJAX request to fetch categories for selected competition
+                $.ajax({
+                    url: '/competitii/' + competitieId + '/categorii', // API endpoint
+                    method: 'GET',
+                    success: function(data) {
+                        var categorieSelect = $('#categorie');
+                        categorieSelect.empty();  // Clear existing options
+                        categorieSelect.append('<option value="">Selecteaza Categoria</option>');  // Default option
+
+                        // Loop through the response and append options to the category select
+                        $.each(data, function(index, categorie) {
+                            categorieSelect.append('<option value="' + categorie[0] + '">' + categorie[1] + '</option>');
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX request failed:', error);
+                    }
+                });
+            } else {
+                $('#categorie').empty();
+                $('#categorie').append('<option value="">Selecteaza Categoria</option>');
+            }
+        });
+    });
+</script>
+</body>
+</html>

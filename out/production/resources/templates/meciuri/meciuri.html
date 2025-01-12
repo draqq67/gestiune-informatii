@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matches Details</title>
+    <link rel="stylesheet" href="/css/meciuri.css">
+</head>
+<body>
+
+<header>
+    <h1>Detalii meciuri</h1>
+</header>
+
+<main>
+    <section>
+        <h2>Meciuri</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Competitie</th>
+                <th>Categorie</th>
+                <th>Data meciului</th>
+                <th>Echipa 1</th>
+                <th>Echipa 2</th>
+                <th>Location</th>
+                <th>Link locatie</th>
+                <th>Status</th>
+                <th>Scor Echipa 1</th>
+                <th>Scor Echipa 2</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Loop through the list of matches -->
+            <tr th:each="match : ${meciuri}">
+                <td th:text="${match.categorie.competition.nume}"></td>
+                <td th:text="${match.categorie.sport}"></td>
+                <td th:text="${match.dataMeci}"></td>
+                <!-- Team 1 link -->
+                <td>
+                    <a th:href="@{/echipe/{id}(id=${match.echipa1.id})}" th:text="${match.echipa1.nume}">
+                        Team 1 Name
+                    </a>
+                </td>
+                <!-- Team 2 link -->
+                <td>
+                    <a th:href="@{/echipe/{id}(id=${match.echipa2.id})}" th:text="${match.echipa2.nume}">
+                        Team 2 Name
+                    </a>
+                </td>
+                <td th:text="${match.locatie.adresa}"></td>
+                <td><a th:href="${match.locatie.urlmaps}" target="_blank">View on Map</a></td>
+                <td th:text="${match.status}"></td>
+                <td th:text="${match.scor1}"></td>
+                <td th:text="${match.scor2}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="add">
+            <a href="/meciuri/adauga">Adauga mai multe meciuri</a>
+        </div>
+        <div class="add">
+            <a href="/meciuri/active">Updateaza meciuri</a>
+        </div>
+    </section>
+</main>
+
+</body>
+</html>

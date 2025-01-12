@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Matches by Location</title>
+    <link rel="stylesheet" href="/css/findByLocation.css">
+</head>
+<body>
+<h1>Find Matches by Location</h1>
+<form method="get" th:action="@{/GasesteDupaLocatie}">
+    <label for="location">Alege o locatie:</label>
+    <select id="location" name="locationId" required>
+        <option th:each="loc : ${locations}" th:value="${loc.id}" th:text="${loc.adresa}"></option>
+    </select>
+    <button type="submit">Cauta</button>
+</form>
+
+<div th:if="${matches != null}">
+    <h2>Rezultate meciuri</h2>
+    <table>
+        <thead>
+        <tr>
+<!--            <th>Match ID</th>-->
+            <th>Echipa 1</th>
+            <th>Echipa 2</th>
+            <th>Date</th>
+            <th>Scor1</th>
+            <th>Scor2</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="match : ${matches}">
+<!--            <td th:text="${match[0]}"></td>-->
+            <td>
+                <a th:href="@{/echipe/{id}(id=${match[0]})}" th:text="${match[2]}">
+                    Team 1
+            </a>
+            </td>
+            <td>
+                <a th:href="@{/echipe/{id}(id=${match[1]})}" th:text="${match[3]}">
+                Team 2
+                </a>
+            </td>
+            <td th:text="${match[4]}"></td>
+            <td th:text="${match[5]}"></td>
+            <td th:text="${match[6]}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

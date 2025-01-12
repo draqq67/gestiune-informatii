@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Competition</title>
+</head>
+<body>
+
+<h1>Delete Competition</h1>
+
+<!-- Show any messages after delete action -->
+<div th:if="${message != null}">
+    <p th:text="${message}"></p>
+</div>
+
+<!-- Form to delete competition -->
+<form th:action="@{/competitii/sterge}" method="post">
+    <label for="competitionName">Alege competitia de sters:</label>
+    <select name="competitionName" id="competitionName" required>
+        <option th:each="competition : ${competitions}"
+                th:value="${competition.nume}"
+                th:text="${competition.nume}"></option>
+    </select>
+    <button type="submit">Delete</button>
+</form>
+
+</body>
+</html>
