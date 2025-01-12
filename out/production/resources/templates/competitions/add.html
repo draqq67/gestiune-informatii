@@ -1,75 +1,164 @@
+<!-- add.html -->
+
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Add Competition</title>
-    <link rel="stylesheet" href="/css/add.css"> <!-- Optional: Link to a CSS file for styling -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Competition</title>
+    <link rel="stylesheet" href="/css/add.css">
 </head>
 <body>
-<div class="container">
-    <h1>Add New Competition</h1>
-    <form th:action="@{/competitions/add}" method="post">
-        <!-- Competition Name -->
-        <div class="form-group">
-            <label for="competitionName">Competition Name:</label>
-            <input type="text" id="competitionName" name="competitionName" class="form-control" required>
+
+<h1>Add New Competition</h1>
+<form th:action="@{/competitii/adauga}" method="post" enctype="multipart/form-data">
+
+    <!-- Competition Details Section -->
+    <fieldset>
+        <legend>Detalii competitii</legend>
+        <div>
+            <label for="competitionName">Numele competitiei</label>
+            <input type="text" id="competitionName" name="competitionName" required>
+        </div>
+        <div>
+            <label for="dataStart">Data de inceput</label>
+            <input type="date" id="dataStart" name="dataStart" required>
+        </div>
+        <div>
+            <label for="dataEnd">Data de incheiere :</label>
+            <input type="date" id="dataEnd" name="dataEnd" required>
         </div>
 
-        <!-- Start Date -->
-        <div class="form-group">
-            <label for="dataStart">Start Date:</label>
-            <input type="date" id="dataStart" name="dataStart" class="form-control" required>
+        <div>
+            <label for="descriere">Descriere:</label>
+            <textarea id="descriere" name="descriere"></textarea>
         </div>
-
-        <!-- End Date -->
-        <div class="form-group">
-            <label for="dataEnd">End Date:</label>
-            <input type="date" id="dataEnd" name="dataEnd" class="form-control" required>
+        <div>
+            <label for="detalii">Detalii:</label>
+            <textarea id="detalii" name="detalii"></textarea>
         </div>
-
-        <!-- Description -->
-        <div class="form-group">
-            <label for="descriere">Description:</label>
-            <textarea id="descriere" name="descriere" class="form-control" rows="3" required></textarea>
-        </div>
-
-        <!-- Details -->
-        <div class="form-group">
-            <label for="detalii">Details:</label>
-            <textarea id="detalii" name="detalii" class="form-control" rows="3" required></textarea>
-        </div>
-
-        <!-- Website -->
-        <div class="form-group">
+        <div>
             <label for="site">Website:</label>
-            <input type="url" id="site" name="site" class="form-control">
+            <input type="url" id="site" name="site">
         </div>
-
-        <!-- Status -->
-        <div class="form-group">
+        <div>
             <label for="status">Status:</label>
-            <select id="status" name="status" class="form-control" required>
-                <option value="true">Active</option>
-                <option value="false">Inactive</option>
-            </select>
+            <input type="checkbox" id="status" name="status">
         </div>
+        <div>
+            <label for="type">Tip:</label>
+            <input type="text" id="type" name="type">
+        </div>
+        <div>
+            <label for="organizerName">Nume organizator :</label>
+            <input type="text" id="organizerName" name="organizerName" required>
+        </div>
+    </fieldset>
 
-        <!-- Type -->
-        <div class="form-group">
-            <label for="type">Type:</label>
-            <input type="text" id="type" name="type" class="form-control" required>
+    <!-- Categories Section -->
+    <fieldset>
+        <legend>Categorii</legend>
+        <div id="categories-container">
+            <div>
+                <label for="sport-0">Sport:</label>
+                <input type="text" id="sport-0" name="sports[]" required>
+            </div>
+            <div>
+                <label for="numarEchipe-0">Number de echipe</label>
+                <input type="number" id="numarEchipe-0" name="teamNumbers[]" required>
+            </div>
         </div>
+        <button type="button" onclick="addCategory()">Adauga alta categorie</button>
+    </fieldset>
 
-        <!-- Organizer Name -->
-        <div class="form-group">
-            <label for="organizerName">Organizer Name:</label>
-            <input type="text" id="organizerName" name="organizerName" class="form-control" required>
+    <!-- Images Section -->
+    <fieldset>
+        <legend>Imagini</legend>
+        <div id="images-container">
+            <div>
+                <label for="urlPoza-0">Image URL:</label>
+                <input type="url" id="urlPoza-0" name="imageUrls[]" required>
+            </div>
+            <div>
+                <label for="altText-0">Alt Text:</label>
+                <input type="text" id="altText-0" name="altTexts[]" required>
+            </div>
         </div>
+        <button type="button" onclick="addImage()">Adauga alta imagine</button>
+    </fieldset>
 
-        <!-- Submit Button -->
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Add Competition</button>
+    <!-- Sponsors Section -->
+    <fieldset>
+        <legend>Sponsors</legend>
+        <div id="sponsors-container">
+            <div>
+                <label for="sponsorName-0">Nume Sponsor:</label>
+                <input type="text" id="sponsorName-0" name="sponsorNames[]" required>
+            </div>
+            <div>
+                <label for="sponsorPackage-0">Tip sponsor :</label>
+                <input type="text" id="sponsorPackage-0" name="sponsorPackages[]" required>
+            </div>
         </div>
-    </form>
-</div>
+        <button type="button" onclick="addSponsor()">Adauga alt sponsor</button>
+    </fieldset>
+
+    <button type="submit">Trimite</button>
+</form>
+
+<script>
+    let categoryIndex = 1;
+    let imageIndex = 1;
+    let sponsorIndex = 1;
+
+    function addCategory() {
+        const container = document.getElementById('categories-container');
+        const newCategory = `
+            <div>
+                <label for="sport-${categoryIndex}">Sport:</label>
+                <input type="text" id="sport-${categoryIndex}" name="sports[]" required>
+            </div>
+            <div>
+                <label for="numarEchipe-${categoryIndex}">Number of Teams:</label>
+                <input type="number" id="numarEchipe-${categoryIndex}" name="teamNumbers[]" required>
+            </div>
+        `;
+        container.innerHTML += newCategory;
+        categoryIndex++;
+    }
+
+    function addImage() {
+        const container = document.getElementById('images-container');
+        const newImage = `
+            <div>
+                <label for="urlPoza-${imageIndex}">Image URL:</label>
+                <input type="url" id="urlPoza-${imageIndex}" name="imageUrls[]" required>
+            </div>
+            <div>
+                <label for="altText-${imageIndex}">Alt Text:</label>
+                <input type="text" id="altText-${imageIndex}" name="altTexts[]" required>
+            </div>
+        `;
+        container.innerHTML += newImage;
+        imageIndex++;
+    }
+
+    function addSponsor() {
+        const container = document.getElementById('sponsors-container');
+        const newSponsor = `
+            <div>
+                <label for="sponsorName-${sponsorIndex}">Sponsor Name:</label>
+                <input type="text" id="sponsorName-${sponsorIndex}" name="sponsorNames[]" required>
+            </div>
+            <div>
+                <label for="sponsorPackage-${sponsorIndex}">Sponsor Package:</label>
+                <input type="text" id="sponsorPackage-${sponsorIndex}" name="sponsorPackages[]" required>
+            </div>
+        `;
+        container.innerHTML += newSponsor;
+        sponsorIndex++;
+    }
+</script>
+
 </body>
 </html>
